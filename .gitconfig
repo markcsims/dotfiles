@@ -1,0 +1,13 @@
+[user]
+	email = mark.sims@mergermarket.com
+	name = Mark Sims
+[push]
+	default = simple
+[credential]
+	helper = osxkeychain
+[core]
+	editor = /usr/bin/vim
+[rerere]
+	enabled = true
+[alias]
+  ll =  log --color --graph --all --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit
