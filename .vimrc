@@ -2,7 +2,18 @@ filetype on                       "Enable filetypes
 filetype plugin on
 filetype indent on
 filetype plugin indent on
-execute pathogen#infect()
+
+call plug#begin()
+Plug 'chriskempson/base16-vim'
+Plug 'bling/vim-airline'
+Plug 'kien/ctrlp.vim'
+Plug 'altercation/vim-colors-solarized'
+Plug 'editorconfig/editorconfig-vim'
+Plug 'guiniol/vim-showspaces'
+" On-demand loading
+Plug 'scrooloose/nerdtree', { 'on': 'NERDTreeToggle' }
+call plug#end()
+
 syntax on
 syntax enable
 let g:ctrlp_map = '<c-p>'
