@@ -1,6 +1,6 @@
 call plug#begin()
 Plug 'chriskempson/base16-vim'
-Plug 'bling/vim-airline'
+Plug 'vim-airline/vim-airline'
 Plug 'kien/ctrlp.vim'
 Plug 'altercation/vim-colors-solarized'
 Plug 'editorconfig/editorconfig-vim'
