@@ -1,7 +1,6 @@
 call plug#begin()
 Plug 'chriskempson/base16-vim'
 Plug 'vim-airline/vim-airline'
-Plug 'ctrlpvim/ctrlp.vim'
 Plug 'altercation/vim-colors-solarized'
 Plug 'editorconfig/editorconfig-vim'
 Plug 'tpope/vim-sensible'
@@ -11,7 +10,6 @@ Plug 'junegunn/vim-emoji'
 Plug 'tpope/vim-commentary'
 Plug 'tpope/vim-surround'
 Plug 'tpope/vim-fugitive'
-"Plug 'scrooloose/syntastic'
 
 " On-demand loading
 Plug 'scrooloose/nerdtree', { 'on': 'NERDTreeToggle' }
@@ -25,9 +23,6 @@ filetype plugin indent on
 syntax on
 syntax enable
 
-let g:ctrlp_map = '<c-p>'
-let g:ctrlp_cmd = 'CtrlP'
-let g:ctrlp_working_path_mode = 'ra'
 let g:netrw_liststyle=3
 let g:move_key_modifier = 'C'
 
@@ -140,3 +135,9 @@ nnoremap <Leader>9 :9b<CR>
 nnoremap <Leader>0 :10b<CR>
 
 map <C-n> :NERDTreeToggle<CR>
+
+"copy to clipboard
+nnoremap <C-y> "+y
+vnoremap <C-y> "+y
+nnoremap <C-p> "+gP
+vnoremap <C-p> "+gP
