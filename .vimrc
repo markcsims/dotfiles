@@ -1,7 +1,7 @@
 call plug#begin()
 Plug 'chriskempson/base16-vim'
 Plug 'vim-airline/vim-airline'
-Plug 'kien/ctrlp.vim'
+Plug 'ctrlpvim/ctrlp.vim'
 Plug 'altercation/vim-colors-solarized'
 Plug 'editorconfig/editorconfig-vim'
 Plug 'tpope/vim-sensible'
@@ -11,9 +11,12 @@ Plug 'junegunn/vim-emoji'
 Plug 'tpope/vim-commentary'
 Plug 'tpope/vim-surround'
 Plug 'tpope/vim-fugitive'
+"Plug 'scrooloose/syntastic'
+
 " On-demand loading
 Plug 'scrooloose/nerdtree', { 'on': 'NERDTreeToggle' }
 call plug#end()
+
 filetype on
 filetype plugin on
 filetype indent on
@@ -24,6 +27,7 @@ syntax enable
 
 let g:ctrlp_map = '<c-p>'
 let g:ctrlp_cmd = 'CtrlP'
+let g:ctrlp_working_path_mode = 'ra'
 let g:netrw_liststyle=3
 let g:move_key_modifier = 'C'
 
@@ -38,7 +42,7 @@ let g:airline_powerline_fonts = 1
 
 if has("gui_gtk2")
 elseif has("gui_macvim")
-  set guifont=Monaco:h14
+  set guifont=Source\ Code\ Pro\ for\ Powerline:h14
 elseif has("gui_win32")
   set guifont=Consolas:h11
 end
@@ -104,6 +108,7 @@ if exists("+spelllang")
   set spelllang=en_gb
 endif
 
+let macvim_skip_colorscheme = 1
 set sessionoptions=resize,winpos,winsize,buffers,tabpages,folds,curdir,help
 set list listchars=eol:¬,tab:>-,trail:·,extends:>,precedes:<
 set background=dark
