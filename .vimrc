@@ -1,23 +1,20 @@
 call plug#begin()
 Plug 'chriskempson/base16-vim'
 Plug 'vim-airline/vim-airline'
-Plug 'altercation/vim-colors-solarized'
+Plug 'vim-airline/vim-airline-themes'
 Plug 'editorconfig/editorconfig-vim'
 Plug 'tpope/vim-sensible'
 Plug 'matze/vim-move'
-
-Plug 'junegunn/vim-emoji'
 Plug 'tpope/vim-commentary'
 Plug 'tpope/vim-surround'
-Plug 'tpope/vim-fugitive'
+Plug 'scrooloose/syntastic'
+Plug 'ctrlpvim/ctrlp.vim'
 
 " On-demand loading
 Plug 'scrooloose/nerdtree', { 'on': 'NERDTreeToggle' }
+
 call plug#end()
 
-filetype on
-filetype plugin on
-filetype indent on
 filetype plugin indent on
 
 syntax on
@@ -25,10 +22,18 @@ syntax enable
 
 let g:netrw_liststyle=3
 let g:move_key_modifier = 'C'
+let g:ctrlp_map = '<c-p>'
+let g:ctrlp_cmd = 'CtrlP'
+let g:ctrlp_working_path_mode = 'ra'
+set statusline+=%#warningmsg#
+set statusline+=%{SyntasticStatuslineFlag()}
+set statusline+=%*
 
-autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTreeType") && b:NERDTreeType == "primary") | q | endif
-
-set laststatus=2
+let g:syntastic_always_populate_loc_list = 1
+let g:syntastic_auto_loc_list = 1
+let g:syntastic_check_on_open = 0
+let g:syntastic_check_on_wq = 0
+let g:syntastic_javascript_checkers = ['jsxhint', 'jscs']
 
 let g:airline#extensions#tabline#enabled = 1
 let g:airline_theme='badwolf'
@@ -46,6 +51,7 @@ set nocompatible
 set nobackup
 "set noswapfile
 
+set laststatus=2
 set autowrite
 set ruler
 set timeoutlen=500                "Ever notice a slight lag after typing <leader> + cmd? This lowers the timeout.
@@ -80,13 +86,6 @@ set whichwrap+=<,>,[,]
 set textwidth=80
 set formatoptions=qrn1
 
-if has("autocmd")                 "Source the vimrc file after saving it.
-  augroup myvimrchooks             "This way, you don't have to reload Vim to see the changes.
-    au!
-    autocmd bufwritepost .vimrc source ~/.vimrc
-  augroup END
-endif
-
 set wildmenu
 set wildmode=longest:full,full
 
@@ -107,9 +106,7 @@ let macvim_skip_colorscheme = 1
 set sessionoptions=resize,winpos,winsize,buffers,tabpages,folds,curdir,help
 set list listchars=eol:¬,tab:>-,trail:·,extends:>,precedes:<
 set background=dark
-let g:solarized_termcolors=256
-set t_Co=256
-colorscheme elflord "solarized
+colorscheme elflord
 
 " Easy splitted window navigation
 noremap <C-h>  <C-w>h
@@ -135,9 +132,17 @@ nnoremap <Leader>9 :9b<CR>
 nnoremap <Leader>0 :10b<CR>
 
 map <C-n> :NERDTreeToggle<CR>
-
+map <C-l> :SyntasticCheck<CR>
 "copy to clipboard
 nnoremap <C-y> "+y
 vnoremap <C-y> "+y
-nnoremap <C-p> "+gP
-vnoremap <C-p> "+gP
+
+autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTreeType") && b:NERDTreeType == "primary") | q | endif
+
+if has("autocmd")                 "Source the vimrc file after saving it.
+  augroup myvimrchooks             "This way, you don't have to reload Vim to see the changes.
+    au!
+    autocmd bufwritepost .vimrc source ~/.vimrc
+  augroup END
+endif
+
