@@ -9,6 +9,13 @@ Plug 'tpope/vim-commentary'
 Plug 'tpope/vim-surround'
 Plug 'scrooloose/syntastic'
 Plug 'ctrlpvim/ctrlp.vim'
+Plug 'pangloss/vim-javascript'
+Plug 'tpope/vim-markdown'
+Plug 'Valloric/YouCompleteMe'
+Plug 'mxw/vim-jsx'
+Plug 'elzr/vim-json'
+"Plug 'Shougo/neocomplete.vim'
+Plug 'marijnh/tern_for_vim', { 'do': 'npm install' }
 
 " On-demand loading
 Plug 'scrooloose/nerdtree', { 'on': 'NERDTreeToggle' }
@@ -19,6 +26,9 @@ filetype plugin indent on
 
 syntax on
 syntax enable
+
+let g:ycm_autoclose_preview_window_after_insertion = 1
+let g:ycm_autoclose_preview_window_after_completion = 1
 
 let g:netrw_liststyle=3
 let g:move_key_modifier = 'C'
@@ -33,6 +43,7 @@ let g:syntastic_always_populate_loc_list = 1
 let g:syntastic_auto_loc_list = 1
 let g:syntastic_check_on_open = 0
 let g:syntastic_check_on_wq = 0
+let g:syntastic_mode_map= { 'mode': 'passive' }
 let g:syntastic_javascript_checkers = ['jsxhint', 'jscs']
 
 let g:airline#extensions#tabline#enabled = 1
