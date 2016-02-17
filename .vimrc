@@ -13,7 +13,7 @@ Plug 'pangloss/vim-javascript'
 Plug 'tpope/vim-markdown'
 Plug 'Valloric/YouCompleteMe'
 Plug 'mxw/vim-jsx'
-Plug 'elzr/vim-json'
+Plug 'juvenn/mustache.vim'
 "Plug 'Shougo/neocomplete.vim'
 Plug 'marijnh/tern_for_vim', { 'do': 'npm install' }
 
