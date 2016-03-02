@@ -1,6 +1,6 @@
 export ZSH=$HOME/.oh-my-zsh
 
-ZSH_THEME="agnoster"
+ZSH_THEME="avit"
 
 DEFAULT_USER="mark"
 
@@ -18,6 +18,8 @@ export NVM_DIR=~/.nvm
 source $(brew --prefix nvm)/nvm.sh
 
 alias vi="nvim"
+alias vim="nvim"
+alias reload=". ~/.zshrc && echo 'ZSH config reloaded from ~/.zshrc'"
 
 export PATH="$PATH:$HOME/.rvm/bin" # Add RVM to PATH for scripting
 fpath=(/usr/local/share/zsh-completions $fpath)
