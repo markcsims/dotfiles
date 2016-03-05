@@ -142,6 +142,13 @@ nnoremap <Leader>8 :8b<CR>
 nnoremap <Leader>9 :9b<CR>
 nnoremap <Leader>0 :10b<CR>
 
+"tab management
+nnoremap <Leader>tf  :tabnext<CR>
+nnoremap <Leader>tb  :tabprev<CR>
+nnoremap <Leader>tt  :tabedit<Space>
+nnoremap <Leader>tm  :tabm<Space>
+nnoremap <Leader>td  :tabclose<CR>
+
 map <C-n> :NERDTreeToggle<CR>
 map <C-l> :SyntasticCheck<CR>
 "copy to clipboard
