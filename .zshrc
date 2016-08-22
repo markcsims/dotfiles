@@ -21,7 +21,6 @@ source $(brew --prefix nvm)/nvm.sh
 
 alias vi="nvim"
 alias vim="nvim"
-alias reload=". ~/.zshrc && echo 'ZSH config reloaded from ~/.zshrc'"
 
 fpath=(/usr/local/share/zsh-completions $fpath)
 export PATH="$PATH:$HOME/.rvm/bin" # Add RVM to PATH for scripting
