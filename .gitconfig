@@ -11,3 +11,4 @@
   enabled = true
 [alias]
   ll =  log --color --graph --all --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit
+  diff2 = diff --compaction-heuristic
