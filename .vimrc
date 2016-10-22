@@ -16,9 +16,12 @@ Plug 'mxw/vim-jsx'
 Plug 'juvenn/mustache.vim'
 "Plug 'Shougo/neocomplete.vim'
 Plug 'marijnh/tern_for_vim', { 'do': 'npm install' }
+"Plug 'terryma/vim-multiple-cursors'
 
 " On-demand loading
 Plug 'scrooloose/nerdtree', { 'on': 'NERDTreeToggle' }
+Plug 'godoctor/godoctor.vim'
+Plug 'fatih/vim-go'
 
 call plug#end()
 
@@ -45,6 +48,13 @@ set statusline+=%*
 " let g:syntastic_check_on_wq = 0
 " let g:syntastic_mode_map= { 'mode': 'passive' }
 " let g:syntastic_javascript_checkers = ['jsxhint', 'jscs']
+
+let g:go_highlight_functions = 1
+let g:go_highlight_methods = 1
+let g:go_highlight_fields = 1
+let g:go_highlight_types = 1
+let g:go_highlight_operators = 1
+let g:go_highlight_build_constraints = 1
 
 let g:airline#extensions#tabline#enabled = 1
 let g:airline_theme='badwolf'
