@@ -63,6 +63,8 @@ let g:airline_theme='badwolf'
 let g:airline#extensions#tabline#fnamemod = ':t'
 let g:airline_powerline_fonts = 1
 
+set rtp+=~/.vim/godoctor.vim
+
 if has("gui_gtk2")
 elseif has("gui_macvim")
   set guifont=Source\ Code\ Pro\ for\ Powerline:h14
