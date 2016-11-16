@@ -19,6 +19,7 @@ Plug 'mileszs/ack.vim'
 "Plug 'Shougo/neocomplete.vim'
 Plug 'marijnh/tern_for_vim', { 'do': 'npm install' }
 "Plug 'terryma/vim-multiple-cursors'
+Plug 'jeffkreeftmeijer/vim-numbertoggle'
 
 " On-demand loading
 Plug 'scrooloose/nerdtree', { 'on': 'NERDTreeToggle' }
@@ -62,6 +63,7 @@ let g:airline#extensions#tabline#enabled = 1
 let g:airline_theme='badwolf'
 let g:airline#extensions#tabline#fnamemod = ':t'
 let g:airline_powerline_fonts = 1
+let g:UseNumberToggleTrigger = 0
 
 set rtp+=~/.vim/godoctor.vim
 
@@ -180,4 +182,3 @@ if has("autocmd")                 "Source the vimrc file after saving it.
     autocmd bufwritepost .vimrc source ~/.vimrc
   augroup END
 endif
-
