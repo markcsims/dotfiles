@@ -88,9 +88,12 @@ set laststatus=2
 set incsearch
 set synmaxcol=256
 set smarttab
-set tabstop=2
-set shiftwidth=2
-set softtabstop=2
+" set tabstop=2
+" set shiftwidth=2
+" set softtabstop=2
+autocmd Filetype html setlocal ts=2 sts=2 sw=2
+autocmd Filetype ruby setlocal ts=2 sts=2 sw=2
+autocmd Filetype javascript setlocal ts=2 sts=2 sw=2
 set expandtab
 set copyindent
 set preserveindent
