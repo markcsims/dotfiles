@@ -17,13 +17,18 @@ source $ZSH/oh-my-zsh.sh
 export NVM_DIR=~/.nvm
 source $(brew --prefix nvm)/nvm.sh
 
-[[ -s "$HOME/.rvm/scripts/rvm" ]] && . "$HOME/.rvm/scripts/rvm" 
+[[ -s "$HOME/.rvm/scripts/rvm" ]] && . "$HOME/.rvm/scripts/rvm"
 
 alias vi="nvim"
 alias vim="nvim"
 
 fpath=(/usr/local/share/zsh-completions $fpath)
 export PATH="$PATH:$HOME/.rvm/bin" # Add RVM to PATH for scripting
+
+export GOPATH=$HOME/dev/go
+export PATH=$PATH:$GOPATH/bin
+
+
 # PROMPT='%{%f%b%k%}$(build_prompt)
 # $(prompt_segment white white "")$(prompt_end) '
 
