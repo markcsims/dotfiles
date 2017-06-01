@@ -2,29 +2,33 @@ call plug#begin()
 Plug 'chriskempson/base16-vim'
 Plug 'vim-airline/vim-airline'
 Plug 'vim-airline/vim-airline-themes'
-Plug 'editorconfig/editorconfig-vim'
-Plug 'tpope/vim-sensible'
 Plug 'matze/vim-move'
+Plug 'tpope/vim-sensible'
 Plug 'tpope/vim-commentary'
 Plug 'tpope/vim-surround'
-Plug 'scrooloose/syntastic'
-Plug 'ctrlpvim/ctrlp.vim'
-Plug 'pangloss/vim-javascript'
 Plug 'tpope/vim-markdown'
 Plug 'tpope/vim-repeat'
-Plug 'Valloric/YouCompleteMe'
-Plug 'mxw/vim-jsx'
-Plug 'juvenn/mustache.vim'
-Plug 'mileszs/ack.vim'
-"Plug 'Shougo/neocomplete.vim'
-Plug 'marijnh/tern_for_vim', { 'do': 'npm install' }
-"Plug 'terryma/vim-multiple-cursors'
 Plug 'jeffkreeftmeijer/vim-numbertoggle'
 
-" On-demand loading
-Plug 'scrooloose/nerdtree', { 'on': 'NERDTreeToggle' }
+Plug 'ctrlpvim/ctrlp.vim'
+Plug 'editorconfig/editorconfig-vim'
+Plug 'Valloric/YouCompleteMe'
+Plug 'scrooloose/syntastic'
+Plug 'ternjs/tern_for_vim', { 'do': 'npm install' }
+Plug 'mileszs/ack.vim'
+
+Plug 'sheerun/vim-polyglot'
 Plug 'godoctor/godoctor.vim'
-Plug 'fatih/vim-go'
+"Plug 'pangloss/vim-javascript'
+"Plug 'mxw/vim-jsx'
+"Plug 'juvenn/mustache.vim'
+"Plug 'Shougo/neocomplete.vim'
+"Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
+"Plug 'terryma/vim-multiple-cursors'
+"Plug 'fatih/vim-go'
+"Plug 'mustache/vim-mustache-handlebars'
+
+Plug 'scrooloose/nerdtree', { 'on': 'NERDTreeToggle' }
 
 call plug#end()
 
@@ -70,6 +74,8 @@ set rtp+=~/.vim/godoctor.vim
 if has("gui_gtk2")
 elseif has("gui_macvim")
   set guifont=Source\ Code\ Pro\ for\ Powerline:h14
+elseif has("gui_vimr")
+  set guifont=SauceCodePowerline-Medium:h14
 elseif has("gui_win32")
   set guifont=Consolas:h11
 end
@@ -93,9 +99,9 @@ set smarttab
 " set tabstop=2
 " set shiftwidth=2
 " set softtabstop=2
-autocmd Filetype html setlocal ts=2 sts=2 sw=2
-autocmd Filetype ruby setlocal ts=2 sts=2 sw=2
-autocmd Filetype javascript setlocal ts=2 sts=2 sw=2
+" autocmd Filetype html setlocal ts=2 sts=2 sw=2
+" autocmd Filetype ruby setlocal ts=2 sts=2 sw=2
+" autocmd Filetype javascript setlocal ts=2 sts=2 sw=2
 set expandtab
 set copyindent
 set preserveindent
