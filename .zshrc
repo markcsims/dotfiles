@@ -36,3 +36,6 @@ export PATH=$PATH:$GOPATH/bin
 if [ -d "$HOME/bin" ] ; then
    PATH="$HOME/bin:$PATH"
 fi
+
+alias trim="ex +'bufdo!%s/\s\+$//e' -scxa"
+alias retab="ex +'set ts=2' +'bufdo retab' -scxa"
