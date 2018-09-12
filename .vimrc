@@ -2,12 +2,14 @@ call plug#begin()
 Plug 'chriskempson/base16-vim'
 Plug 'vim-airline/vim-airline'
 Plug 'vim-airline/vim-airline-themes'
+Plug 'flazz/vim-colorschemes'
 Plug 'matze/vim-move'
 Plug 'tpope/vim-sensible'
 Plug 'tpope/vim-commentary'
 Plug 'tpope/vim-surround'
 Plug 'tpope/vim-markdown'
 Plug 'tpope/vim-repeat'
+Plug 'tpope/vim-vinegar'
 Plug 'jeffkreeftmeijer/vim-numbertoggle'
 
 Plug 'ctrlpvim/ctrlp.vim'
@@ -19,13 +21,23 @@ Plug 'mileszs/ack.vim'
 
 Plug 'sheerun/vim-polyglot'
 Plug 'godoctor/godoctor.vim'
-"Plug 'pangloss/vim-javascript'
+Plug 'jelera/vim-javascript-syntax'
+Plug 'leafgarland/typescript-vim'
+Plug 'Quramy/tsuquyomi'
+Plug 'SirVer/ultisnips'
+Plug 'prettier/vim-prettier', {
+    \ 'do': 'npm install',
+    \ 'for': ['javascript', 'typescript', 'css', 'less', 'scss'] }
+" Plug 'itchyny/lightline.vim'
+" Plug 'w0rp/ale'
+"Plug 'rafi/awesome-vim-colorschemes'
+Plug 'pangloss/vim-javascript'
 "Plug 'mxw/vim-jsx'
 "Plug 'juvenn/mustache.vim'
 "Plug 'Shougo/neocomplete.vim'
 "Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
 "Plug 'terryma/vim-multiple-cursors'
-"Plug 'fatih/vim-go'
+Plug 'fatih/vim-go'
 "Plug 'mustache/vim-mustache-handlebars'
 
 Plug 'scrooloose/nerdtree', { 'on': 'NERDTreeToggle' }
@@ -49,12 +61,22 @@ set statusline+=%#warningmsg#
 set statusline+=%{SyntasticStatuslineFlag()}
 set statusline+=%*
 
+let g:polyglot_disabled = ['graphql']
 " let g:syntastic_always_populate_loc_list = 1
 " let g:syntastic_auto_loc_list = 1
 " let g:syntastic_check_on_open = 0
 " let g:syntastic_check_on_wq = 0
 " let g:syntastic_mode_map= { 'mode': 'passive' }
-" let g:syntastic_javascript_checkers = ['jsxhint', 'jscs']
+" let g:syntastic_javascript_checkers = ['standard']
+"
+let g:typescript_indent_disable = 1
+let g:typescript_compiler_binary = 'tsc'
+let g:typescript_compiler_options = '--module commonjs --target ES2016 --lib ES2015 --experimentalDecorators'
+let g:syntastic_typescript_tsc_args = "--module commonjs --target ES2016 --lib ES2015 --experimentalDecorators"
+let g:syntastic_typescript_checkers = ['tsuquyomi']
+" let g:tsuquyomi_auto_open=0
+" let g:tsuquyomi_completion_detail = 0
+" let g:tsuquyomi_disable_quickfix = 1
 
 let g:go_highlight_functions = 1
 let g:go_highlight_methods = 1
@@ -68,6 +90,7 @@ let g:airline_theme='badwolf'
 let g:airline#extensions#tabline#fnamemod = ':t'
 let g:airline_powerline_fonts = 1
 let g:UseNumberToggleTrigger = 0
+let g:prettier#exec_cmd_async = 1
 
 set rtp+=~/.vim/godoctor.vim
 
@@ -142,7 +165,9 @@ let macvim_skip_colorscheme = 1
 set sessionoptions=resize,winpos,winsize,buffers,tabpages,folds,curdir,help
 set list listchars=eol:¬,tab:>-,trail:·,extends:>,precedes:<
 set background=dark
-colorscheme elflord
+"colorscheme elflord
+"colorscheme distinguished
+colorscheme ron
 
 " Easy splitted window navigation
 noremap <C-h>  <C-w>h
