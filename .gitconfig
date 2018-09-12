@@ -1,5 +1,5 @@
 [user]
-  email = mark.sims@mergermarket.com
+  email = mark.sims@acuris.com
   name = Mark Sims
 [push]
   default = simple
@@ -11,4 +11,11 @@
   enabled = true
 [alias]
   ll =  log --color --graph --all --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit
+  ls =  log --oneline --graph --decorate
   diff2 = diff --compaction-heuristic
+  fix = "!f() { ${EDITOR} `git diff --name-only`; }; f"
+[filter "lfs"]
+  required = true
+  clean = git-lfs clean -- %f
+  smudge = git-lfs smudge -- %f
+  process = git-lfs filter-process
