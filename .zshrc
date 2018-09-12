@@ -12,21 +12,25 @@ plugins=(git ruby brew node docker)
 bindkey -v
 
 export PATH="/usr/local/bin:/usr/local/sbin:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:/opt/X11/bin"
+export PATH=~/.local/bin:$PATH
 
 source $ZSH/oh-my-zsh.sh
-export NVM_DIR=~/.nvm
-source $(brew --prefix nvm)/nvm.sh
+
+export NVM_DIR="$HOME/.nvm"
+. "/usr/local/opt/nvm/nvm.sh"
 
 [[ -s "$HOME/.rvm/scripts/rvm" ]] && . "$HOME/.rvm/scripts/rvm"
 
 alias vi="nvim"
 alias vim="nvim"
+# alias vi="vim"
 
 fpath=(/usr/local/share/zsh-completions $fpath)
 export PATH="$PATH:$HOME/.rvm/bin" # Add RVM to PATH for scripting
 
 export GOPATH=$HOME/dev/go
 export PATH=$PATH:$GOPATH/bin
+export EDITOR=vi
 
 
 # PROMPT='%{%f%b%k%}$(build_prompt)
