@@ -1,0 +1,15 @@
+--color
+--ignore-case
+--nopager
+--break
+--heading
+--ignore-dir=node_modules/
+--ignore-dir=.tmp/
+--ignore-dir=dist
+
+--type-set=feature=.feature
+--type-set=json=.json
+--type-add=css=.sass,.scss
+--type-set=haml=.haml
+--type-add=css=less
+--type-set=markdown=.md,.mkd,.markdown
