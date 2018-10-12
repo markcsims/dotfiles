@@ -1,13 +1,13 @@
 export ZSH=$HOME/.oh-my-zsh
 
-ZSH_THEME="mortalscumbag"
+ZSH_THEME="mortalit"
 
 DEFAULT_USER="mark"
 
 CASE_SENSITIVE="true"
 ENABLE_CORRECTION="true"
 
-plugins=(git ruby brew node docker)
+plugins=(git ruby brew node docker emoji go npm nvm)
 
 bindkey -v
 
@@ -41,5 +41,6 @@ if [ -d "$HOME/bin" ] ; then
    PATH="$HOME/bin:$PATH"
 fi
 
+export TERM="xterm-256color"
 alias trim="ex +'bufdo!%s/\s\+$//e' -scxa"
 alias retab="ex +'set ts=2' +'bufdo retab' -scxa"
