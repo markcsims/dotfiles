@@ -25,6 +25,7 @@ Plug 'jelera/vim-javascript-syntax'
 Plug 'leafgarland/typescript-vim'
 Plug 'Quramy/tsuquyomi'
 Plug 'SirVer/ultisnips'
+Plug 'luochen1990/rainbow'
 Plug 'prettier/vim-prettier', {
     \ 'do': 'npm install',
     \ 'for': ['javascript', 'typescript', 'css', 'less', 'scss'] }
@@ -49,6 +50,10 @@ filetype plugin indent on
 syntax on
 syntax enable
 
+let g:rainbow_conf = {
+\   'ctermfgs': ['LightBlue', 'LightMagenta', 'LightGreen', 'LightCyan', 'LightRed', 'LightYellow']
+\}
+let g:rainbow_active = 1
 let g:ycm_autoclose_preview_window_after_insertion = 1
 let g:ycm_autoclose_preview_window_after_completion = 1
 
@@ -93,6 +98,7 @@ let g:UseNumberToggleTrigger = 0
 let g:prettier#exec_cmd_async = 1
 
 set rtp+=~/.vim/godoctor.vim
+set t_Co=256
 
 if has("gui_gtk2")
 elseif has("gui_macvim")
