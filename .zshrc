@@ -7,7 +7,7 @@ DEFAULT_USER="mark"
 CASE_SENSITIVE="true"
 ENABLE_CORRECTION="true"
 
-plugins=(git ruby brew node docker emoji go npm nvm)
+plugins=(git ruby brew node docker emoji go npm nvm bash zsh-syntax-highlighting osx)
 
 bindkey -v
 
@@ -16,6 +16,8 @@ export PATH=~/.local/bin:$PATH
 
 source $ZSH/oh-my-zsh.sh
 
+export NPM_USERNAME=mark.sims@acuris.com
+export NPM_PASSWORD=AKCp5ZkxLtfhQhfGFQat7RsnoZ521GqNuu8gUjfPc7L65wpVAK814KUpBD8D1R9RztWimT89T
 export NVM_DIR="$HOME/.nvm"
 . "/usr/local/opt/nvm/nvm.sh"
 
@@ -44,3 +46,6 @@ fi
 export TERM="xterm-256color"
 alias trim="ex +'bufdo!%s/\s\+$//e' -scxa"
 alias retab="ex +'set ts=2' +'bufdo retab' -scxa"
+
+bindkey "^[[A" up-line-or-beginning-search # Up
+bindkey "^[[B" down-line-or-beginning-search # Down

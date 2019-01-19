@@ -29,17 +29,8 @@ Plug 'luochen1990/rainbow'
 Plug 'prettier/vim-prettier', {
     \ 'do': 'npm install',
     \ 'for': ['javascript', 'typescript', 'css', 'less', 'scss'] }
-" Plug 'itchyny/lightline.vim'
-" Plug 'w0rp/ale'
-"Plug 'rafi/awesome-vim-colorschemes'
 Plug 'pangloss/vim-javascript'
-"Plug 'mxw/vim-jsx'
-"Plug 'juvenn/mustache.vim'
-"Plug 'Shougo/neocomplete.vim'
-"Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
-"Plug 'terryma/vim-multiple-cursors'
 Plug 'fatih/vim-go'
-"Plug 'mustache/vim-mustache-handlebars'
 
 Plug 'scrooloose/nerdtree', { 'on': 'NERDTreeToggle' }
 
@@ -62,26 +53,23 @@ let g:move_key_modifier = 'C'
 let g:ctrlp_map = '<c-p>'
 let g:ctrlp_cmd = 'CtrlP'
 let g:ctrlp_working_path_mode = 'ra'
+let g:ctrlp_custom_ignore = {
+  \ 'dir': '\v[\/](dist|node_modules)$'
+  \ }
 set statusline+=%#warningmsg#
 set statusline+=%{SyntasticStatuslineFlag()}
 set statusline+=%*
 
 let g:polyglot_disabled = ['graphql']
-" let g:syntastic_always_populate_loc_list = 1
-" let g:syntastic_auto_loc_list = 1
-" let g:syntastic_check_on_open = 0
-" let g:syntastic_check_on_wq = 0
-" let g:syntastic_mode_map= { 'mode': 'passive' }
-" let g:syntastic_javascript_checkers = ['standard']
 "
 let g:typescript_indent_disable = 1
 let g:typescript_compiler_binary = 'tsc'
 let g:typescript_compiler_options = '--module commonjs --target ES2016 --lib ES2015 --experimentalDecorators'
 let g:syntastic_typescript_tsc_args = "--module commonjs --target ES2016 --lib ES2015 --experimentalDecorators"
+let g:syntastic_always_populate_loc_list = 1
+let g:syntastic_loc_list_height = 5
+let g:syntastic_auto_loc_list = 1
 let g:syntastic_typescript_checkers = ['tsuquyomi']
-" let g:tsuquyomi_auto_open=0
-" let g:tsuquyomi_completion_detail = 0
-" let g:tsuquyomi_disable_quickfix = 1
 
 let g:go_highlight_functions = 1
 let g:go_highlight_methods = 1
@@ -111,26 +99,17 @@ end
 
 set nocompatible
 set nobackup
-"set noswapfile
 
 set laststatus=2
 set autowrite
 set ruler
-set timeoutlen=500                "Ever notice a slight lag after typing <leader> + cmd? This lowers the timeout.
-set hidden                        "Switch between buffers without saving
-"set encoding=utf-8 nobomb         "Encoding off for nvim
+set timeoutlen=500
+set hidden
 set binary
 set history=1000
-set laststatus=2
 set incsearch
 set synmaxcol=256
 set smarttab
-" set tabstop=2
-" set shiftwidth=2
-" set softtabstop=2
-" autocmd Filetype html setlocal ts=2 sts=2 sw=2
-" autocmd Filetype ruby setlocal ts=2 sts=2 sw=2
-" autocmd Filetype javascript setlocal ts=2 sts=2 sw=2
 set expandtab
 set copyindent
 set preserveindent
@@ -138,12 +117,11 @@ set backspace=indent,eol,start
 set showcmd
 set relativenumber
 set number
-"set cursorline                    "Highlight current line
-set scrolloff=3                   "Always 3 lines visible
-set shortmess=I                   "No intro message
+set scrolloff=3
+set shortmess=I
 set smartindent
 set autoindent
-set showmatch                     "Show matching brackets
+set showmatch
 set ignorecase
 set smartcase
 set wrap
@@ -171,18 +149,14 @@ let macvim_skip_colorscheme = 1
 set sessionoptions=resize,winpos,winsize,buffers,tabpages,folds,curdir,help
 set list listchars=eol:¬,tab:>-,trail:·,extends:>,precedes:<
 set background=dark
-"colorscheme elflord
-"colorscheme distinguished
 colorscheme ron
 
-" Easy splitted window navigation
 noremap <C-h>  <C-w>h
 noremap <C-j>  <C-w>j
 noremap <C-k>  <C-w>k
 noremap <C-l>  <C-w>l
 noremap <Tab>  <C-w>w
 
-" buffer management
 nnoremap <Leader>l :ls<CR>
 nnoremap <Leader>b :bp<CR>
 nnoremap <Leader>f :bn<CR>
@@ -198,7 +172,6 @@ nnoremap <Leader>8 :8b<CR>
 nnoremap <Leader>9 :9b<CR>
 nnoremap <Leader>0 :10b<CR>
 
-"tab management
 nnoremap <Leader>tf  :tabnext<CR>
 nnoremap <Leader>tb  :tabprev<CR>
 nnoremap <Leader>tt  :tabedit<Space>
@@ -207,14 +180,14 @@ nnoremap <Leader>td  :tabclose<CR>
 
 map <C-n> :NERDTreeToggle<CR>
 map <C-l> :SyntasticCheck<CR>
-"copy to clipboard
+
 nnoremap <C-y> "+y
 vnoremap <C-y> "+y
 
 autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTreeType") && b:NERDTreeType == "primary") | q | endif
 
-if has("autocmd")                 "Source the vimrc file after saving it.
-  augroup myvimrchooks             "This way, you don't have to reload Vim to see the changes.
+if has("autocmd")
+  augroup myvimrchooks
     au!
     autocmd bufwritepost .vimrc source ~/.vimrc
   augroup END
