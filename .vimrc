@@ -23,6 +23,7 @@ Plug 'sheerun/vim-polyglot'
 Plug 'godoctor/godoctor.vim'
 Plug 'jelera/vim-javascript-syntax'
 Plug 'leafgarland/typescript-vim'
+Plug 'peitalin/vim-jsx-typescript'
 Plug 'Quramy/tsuquyomi'
 Plug 'SirVer/ultisnips'
 Plug 'luochen1990/rainbow'
@@ -31,6 +32,7 @@ Plug 'prettier/vim-prettier', {
     \ 'for': ['javascript', 'typescript', 'css', 'less', 'scss'] }
 Plug 'pangloss/vim-javascript'
 Plug 'fatih/vim-go'
+Plug 'jlanzarotta/bufexplorer'
 
 Plug 'scrooloose/nerdtree', { 'on': 'NERDTreeToggle' }
 

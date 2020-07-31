@@ -14,8 +14,12 @@
   ls =  log --oneline --graph --decorate
   diff2 = diff --compaction-heuristic
   fix = "!f() { ${EDITOR} `git diff --name-only`; }; f"
+  clean-branches = !git branch | grep -v master | xargs git branch -D
 [filter "lfs"]
   required = true
   clean = git-lfs clean -- %f
   smudge = git-lfs smudge -- %f
   process = git-lfs filter-process
+[commit]
+	gpsign = true
+	gpgsign = true

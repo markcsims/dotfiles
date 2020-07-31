@@ -7,11 +7,11 @@ DEFAULT_USER="mark"
 CASE_SENSITIVE="true"
 ENABLE_CORRECTION="true"
 
-plugins=(git ruby brew node docker emoji go npm nvm bash zsh-syntax-highlighting osx)
+plugins=(git ruby brew node docker emoji go npm nvm osx)
 
 bindkey -v
 
-export PATH="/usr/local/bin:/usr/local/sbin:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:/opt/X11/bin"
+export PATH="/usr/local/bin:/usr/local/sbin:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:/opt/X11/bin":$PATH
 export PATH=~/.local/bin:$PATH
 
 source $ZSH/oh-my-zsh.sh
@@ -49,3 +49,4 @@ alias retab="ex +'set ts=2' +'bufdo retab' -scxa"
 
 bindkey "^[[A" up-line-or-beginning-search # Up
 bindkey "^[[B" down-line-or-beginning-search # Down
+export GPG_TTY=$(tty)
