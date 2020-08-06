@@ -186,6 +186,29 @@ map <C-l> :SyntasticCheck<CR>
 nnoremap <C-y> "+y
 vnoremap <C-y> "+y
 
+nnoremap <leader>jf :YcmCompleter FixIt<CR>
+nnoremap <leader>jr :YcmCompleter RefactorRename<CR>
+nnoremap <leader>jo :YcmCompleter OrganiseImports<CR>
+nnoremap <leader>jg :YcmCompleter GoTo<CR>
+" nnoremap <leader>jf :YcmCompleter GoToDefinition<CR>
+" nnoremap <leader>yc :YcmCompleter GoToDeclaration<CR>
+nnoremap <leader>jd :YcmCompleter GoToImplementationElseDeclaration<CR>
+nnoremap <leader>js :YcmCompleter GoToSymbol<CR>
+nnoremap <leader>jt :YcmCompleter GetType<CR>
+nnoremap <leader>jd :YcmCompleter GetDoc<CR>
+
+" autocmd FileType typescript map gd :YcmCompleter GoToDefinition<CR>
+" autocmd FileType typescript map gt :YcmCompleter GoToType<CR>
+" autocmd FileType typescript map gr :YcmCompleter GoToReferences<CR>
+" autocmd FileType typescript map gn :YcmCompleter RefactorRename
+" autocmd FileType typescript map K :YcmCompleter GetDoc<CR>
+
+" autocmd FileType go map gd :YcmCompleter GoTo<CR>
+" autocmd FileType go map gt :YcmCompleter GoToType<CR>
+" autocmd FileType go map gr :YcmCompleter GoToReferences<CR>
+" autocmd FileType go map gn :YcmCompleter RefactorRename
+" autocmd FileType go map K :YcmCompleter GetDoc<CR>
+
 autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTreeType") && b:NERDTreeType == "primary") | q | endif
 
 if has("autocmd")
