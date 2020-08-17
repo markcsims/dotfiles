@@ -35,6 +35,9 @@ Plug 'fatih/vim-go'
 Plug 'jlanzarotta/bufexplorer'
 
 Plug 'scrooloose/nerdtree', { 'on': 'NERDTreeToggle' }
+Plug 'OmniSharp/omnisharp-vim'
+Plug 'prabirshrestha/asyncomplete.vim'
+
 
 call plug#end()
 
@@ -72,6 +75,7 @@ let g:syntastic_always_populate_loc_list = 1
 let g:syntastic_loc_list_height = 5
 let g:syntastic_auto_loc_list = 1
 let g:syntastic_typescript_checkers = ['tsuquyomi']
+let g:syntastic_cs_checkers = ['code_checker']
 
 let g:go_highlight_functions = 1
 let g:go_highlight_methods = 1
@@ -188,11 +192,12 @@ vnoremap <C-y> "+y
 
 nnoremap <leader>jf :YcmCompleter FixIt<CR>
 nnoremap <leader>jr :YcmCompleter RefactorRename<CR>
-nnoremap <leader>jo :YcmCompleter OrganiseImports<CR>
+nnoremap <leader>jo :YcmCompleter OrganizeImports<CR>
 nnoremap <leader>jg :YcmCompleter GoTo<CR>
 " nnoremap <leader>jf :YcmCompleter GoToDefinition<CR>
 " nnoremap <leader>yc :YcmCompleter GoToDeclaration<CR>
 nnoremap <leader>jd :YcmCompleter GoToImplementationElseDeclaration<CR>
+autocmd FileType typescript nnoremap <C-]> :YcmCompleter GoToImplementationElseDeclaration<CR>
 nnoremap <leader>js :YcmCompleter GoToSymbol<CR>
 nnoremap <leader>jt :YcmCompleter GetType<CR>
 nnoremap <leader>jd :YcmCompleter GetDoc<CR>
@@ -209,7 +214,39 @@ nnoremap <leader>jd :YcmCompleter GetDoc<CR>
 " autocmd FileType go map gn :YcmCompleter RefactorRename
 " autocmd FileType go map K :YcmCompleter GetDoc<CR>
 
+" Show type information automatically when the cursor stops moving.
+" Note that the type is echoed to the Vim command line, and will overwrite
+" any other messages in this space including e.g. ALE linting messages.
+autocmd CursorHold *.cs OmniSharpTypeLookup
+
+" The following commands are contextual, based on the cursor position.
+autocmd FileType cs nmap <silent> <buffer> gd <Plug>(omnisharp_go_to_definition)
+autocmd FileType cs nmap <silent> <buffer> <Leader>osfu <Plug>(omnisharp_find_usages)
+autocmd FileType cs nmap <silent> <buffer> <Leader>osfi <Plug>(omnisharp_find_implementations)
+autocmd FileType cs nmap <silent> <buffer> <Leader>ospd <Plug>(omnisharp_preview_definition)
+autocmd FileType cs nmap <silent> <buffer> <Leader>ospi <Plug>(omnisharp_preview_implementations)
+autocmd FileType cs nmap <silent> <buffer> <Leader>ost <Plug>(omnisharp_type_lookup)
+autocmd FileType cs nmap <silent> <buffer> <Leader>osd <Plug>(omnisharp_documentation)
+autocmd FileType cs nmap <silent> <buffer> <Leader>osfs <Plug>(omnisharp_find_symbol)
+autocmd FileType cs nmap <silent> <buffer> <Leader>osfx <Plug>(omnisharp_fix_usings)
+autocmd FileType cs nmap <silent> <buffer> <C-\> <Plug>(omnisharp_signature_help)
+autocmd FileType cs imap <silent> <buffer> <C-\> <Plug>(omnisharp_signature_help)
+
+" Find all code errors/warnings for the current solution and populate the quickfix window
+autocmd FileType cs nmap <silent> <buffer> <Leader>osgcc <Plug>(omnisharp_global_code_check)
+
+autocmd FileType cs nmap <silent> <buffer> <Leader>os= <Plug>(omnisharp_code_format)
+
+autocmd FileType cs nmap <silent> <buffer> <Leader>osnm <Plug>(omnisharp_rename)
+
+autocmd FileType cs nmap <silent> <buffer> <Leader>osre <Plug>(omnisharp_restart_server)
+autocmd FileType cs nmap <silent> <buffer> <Leader>osst <Plug>(omnisharp_start_server)
+autocmd FileType cs nmap <silent> <buffer> <Leader>ossp <Plug>(omnisharp_stop_server)
+
+
 autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTreeType") && b:NERDTreeType == "primary") | q | endif
+
+autocmd BufNewFile,BufRead *.razor set syntax=html
 
 if has("autocmd")
   augroup myvimrchooks
