@@ -3,16 +3,18 @@ export ZSH=$HOME/.oh-my-zsh
 ZSH_THEME="mortalit"
 
 DEFAULT_USER="mark"
+EMAIL="mark.sims@acuris.com"
 
 CASE_SENSITIVE="true"
 ENABLE_CORRECTION="true"
 
-plugins=(git ruby brew node docker emoji go npm nvm osx)
+plugins=(git ruby brew node docker emoji go npm nvm osx aws docker-compose)
 
 bindkey -v
 
 export PATH="/usr/local/bin:/usr/local/sbin:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:/opt/X11/bin":$PATH
 export PATH=~/.local/bin:$PATH
+export PATH=~/dev/mm/mmgaws:$PATH
 
 source $ZSH/oh-my-zsh.sh
 
@@ -50,3 +52,5 @@ alias retab="ex +'set ts=2' +'bufdo retab' -scxa"
 bindkey "^[[A" up-line-or-beginning-search # Up
 bindkey "^[[B" down-line-or-beginning-search # Down
 export GPG_TTY=$(tty)
+export PATH="/opt/homebrew/bin:/usr/local/bin:$PATH"
+alias ibrew='arch -x86_64 /usr/local/bin/brew'

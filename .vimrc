@@ -1,3 +1,4 @@
+let g:polyglot_disabled = ['graphql']
 call plug#begin()
 Plug 'chriskempson/base16-vim'
 Plug 'vim-airline/vim-airline'
@@ -15,6 +16,17 @@ Plug 'jeffkreeftmeijer/vim-numbertoggle'
 Plug 'ctrlpvim/ctrlp.vim'
 Plug 'editorconfig/editorconfig-vim'
 Plug 'Valloric/YouCompleteMe'
+" Plug 'neoclide/coc.nvim', {'branch': 'release'}
+
+" Plug 'mhartington/nvim-typescript', {'do': './install.sh'}
+" if has('nvim')
+"   Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
+" else
+"   Plug 'Shougo/deoplete.nvim'
+"   Plug 'roxma/nvim-yarp'
+"   Plug 'roxma/vim-hug-neovim-rpc'
+" endif
+
 Plug 'scrooloose/syntastic'
 Plug 'ternjs/tern_for_vim', { 'do': 'npm install' }
 Plug 'mileszs/ack.vim'
@@ -38,6 +50,9 @@ Plug 'scrooloose/nerdtree', { 'on': 'NERDTreeToggle' }
 Plug 'OmniSharp/omnisharp-vim'
 Plug 'prabirshrestha/asyncomplete.vim'
 
+" Plug '/usr/local/opt/fzf'
+" Plug 'junegunn/fzf.vim'
+" Plug 'jiangmiao/auto-pairs'
 
 call plug#end()
 
@@ -52,6 +67,7 @@ let g:rainbow_conf = {
 let g:rainbow_active = 1
 let g:ycm_autoclose_preview_window_after_insertion = 1
 let g:ycm_autoclose_preview_window_after_completion = 1
+" let g:deoplete#enable_at_startup = 1
 
 let g:netrw_liststyle=3
 let g:move_key_modifier = 'C'
@@ -65,7 +81,6 @@ set statusline+=%#warningmsg#
 set statusline+=%{SyntasticStatuslineFlag()}
 set statusline+=%*
 
-let g:polyglot_disabled = ['graphql']
 "
 let g:typescript_indent_disable = 1
 let g:typescript_compiler_binary = 'tsc'
@@ -191,12 +206,11 @@ nnoremap <C-y> "+y
 vnoremap <C-y> "+y
 
 nnoremap <leader>jf :YcmCompleter FixIt<CR>
-nnoremap <leader>jr :YcmCompleter RefactorRename<CR>
+nnoremap <leader>jr :YcmCompleter RefactorRename
 nnoremap <leader>jo :YcmCompleter OrganizeImports<CR>
 nnoremap <leader>jg :YcmCompleter GoTo<CR>
-" nnoremap <leader>jf :YcmCompleter GoToDefinition<CR>
+nnoremap <leader>ji :YcmCompleter GoToImplementation<CR>
 " nnoremap <leader>yc :YcmCompleter GoToDeclaration<CR>
-nnoremap <leader>jd :YcmCompleter GoToImplementationElseDeclaration<CR>
 autocmd FileType typescript nnoremap <C-]> :YcmCompleter GoToImplementationElseDeclaration<CR>
 nnoremap <leader>js :YcmCompleter GoToSymbol<CR>
 nnoremap <leader>jt :YcmCompleter GetType<CR>
