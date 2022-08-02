@@ -1,12 +1,13 @@
 [user]
-  email = mark.sims@acuris.com
+  email = mark@bluepie.co.uk
   name = Mark Sims
+  signingkey = B22566803E1E09D0
 [push]
   default = simple
 [credential]
   helper = osxkeychain
 [core]
-  editor = vim
+  editor = nvim
 [rerere]
   enabled = true
 [alias]
@@ -23,3 +24,5 @@
 [commit]
 	gpsign = true
 	gpgsign = true
+[http]
+	postBuffer = 157286400

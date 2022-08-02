@@ -5,7 +5,18 @@
 --heading
 --ignore-dir=node_modules/
 --ignore-dir=.tmp/
+--ignore-dir=.yarn/
 --ignore-dir=dist
+--ignore-dir=build/
+--ignore-dir=build-templates/
+--ignore-dir=.jest-cache/
+--ignore-dir=build-cjs/
+--ignore-file=match:/[.-]min[.]js$/
+--ignore-file=match:/[.]js[.]min$
+--ignore-file=match:/[.-]chunk[.]js$/
+--ignore-file=match:/[.]js[.]chunk$
+--ignore-file=match:/[.]tsbuildinfo$/
+
 
 --type-set=feature=.feature
 --type-set=json=.json
