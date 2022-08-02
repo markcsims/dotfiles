@@ -15,8 +15,8 @@ Plug 'jeffkreeftmeijer/vim-numbertoggle'
 
 Plug 'ctrlpvim/ctrlp.vim'
 Plug 'editorconfig/editorconfig-vim'
-Plug 'Valloric/YouCompleteMe'
-" Plug 'neoclide/coc.nvim', {'branch': 'release'}
+" Plug 'Valloric/YouCompleteMe'
+Plug 'lbrayner/vim-rzip'
 
 " Plug 'mhartington/nvim-typescript', {'do': './install.sh'}
 " if has('nvim')
@@ -36,19 +36,19 @@ Plug 'godoctor/godoctor.vim'
 Plug 'jelera/vim-javascript-syntax'
 Plug 'leafgarland/typescript-vim'
 Plug 'peitalin/vim-jsx-typescript'
-Plug 'Quramy/tsuquyomi'
+" Plug 'Quramy/tsuquyomi'
 Plug 'SirVer/ultisnips'
 Plug 'luochen1990/rainbow'
-Plug 'prettier/vim-prettier', {
-    \ 'do': 'npm install',
-    \ 'for': ['javascript', 'typescript', 'css', 'less', 'scss'] }
+" Plug 'prettier/vim-prettier', { 'do': 'yarn install --frozen-lockfile --production' }
 Plug 'pangloss/vim-javascript'
 Plug 'fatih/vim-go'
 Plug 'jlanzarotta/bufexplorer'
 
 Plug 'scrooloose/nerdtree', { 'on': 'NERDTreeToggle' }
 Plug 'OmniSharp/omnisharp-vim'
-Plug 'prabirshrestha/asyncomplete.vim'
+Plug 'neoclide/coc.nvim', {'branch': 'release'}
+" Plug 'prabirshrestha/asyncomplete.vim'
+Plug 'github/copilot.vim'
 
 " Plug '/usr/local/opt/fzf'
 " Plug 'junegunn/fzf.vim'
@@ -61,12 +61,13 @@ filetype plugin indent on
 syntax on
 syntax enable
 
+let NERDTreeShowHidden=1
 let g:rainbow_conf = {
 \   'ctermfgs': ['LightBlue', 'LightMagenta', 'LightGreen', 'LightCyan', 'LightRed', 'LightYellow']
 \}
 let g:rainbow_active = 1
-let g:ycm_autoclose_preview_window_after_insertion = 1
-let g:ycm_autoclose_preview_window_after_completion = 1
+" let g:ycm_autoclose_preview_window_after_insertion = 1
+" let g:ycm_autoclose_preview_window_after_completion = 1
 " let g:deoplete#enable_at_startup = 1
 
 let g:netrw_liststyle=3
@@ -74,8 +75,9 @@ let g:move_key_modifier = 'C'
 let g:ctrlp_map = '<c-p>'
 let g:ctrlp_cmd = 'CtrlP'
 let g:ctrlp_working_path_mode = 'ra'
+let g:ctrlp_show_hidden = 1
 let g:ctrlp_custom_ignore = {
-  \ 'dir': '\v[\/](dist|node_modules)$'
+  \ 'dir': '\v[\/](dist|node_modules|\.yarn|\.git|\.serverless|\.jest-cache|build|build-cjs)$',
   \ }
 set statusline+=%#warningmsg#
 set statusline+=%{SyntasticStatuslineFlag()}
@@ -104,7 +106,7 @@ let g:airline_theme='badwolf'
 let g:airline#extensions#tabline#fnamemod = ':t'
 let g:airline_powerline_fonts = 1
 let g:UseNumberToggleTrigger = 0
-let g:prettier#exec_cmd_async = 1
+" let g:prettier#exec_cmd_async = 1
 
 set rtp+=~/.vim/godoctor.vim
 set t_Co=256
@@ -205,16 +207,16 @@ map <C-l> :SyntasticCheck<CR>
 nnoremap <C-y> "+y
 vnoremap <C-y> "+y
 
-nnoremap <leader>jf :YcmCompleter FixIt<CR>
-nnoremap <leader>jr :YcmCompleter RefactorRename
-nnoremap <leader>jo :YcmCompleter OrganizeImports<CR>
-nnoremap <leader>jg :YcmCompleter GoTo<CR>
-nnoremap <leader>ji :YcmCompleter GoToImplementation<CR>
-" nnoremap <leader>yc :YcmCompleter GoToDeclaration<CR>
-autocmd FileType typescript nnoremap <C-]> :YcmCompleter GoToImplementationElseDeclaration<CR>
-nnoremap <leader>js :YcmCompleter GoToSymbol<CR>
-nnoremap <leader>jt :YcmCompleter GetType<CR>
-nnoremap <leader>jd :YcmCompleter GetDoc<CR>
+" nnoremap <leader>jf :YcmCompleter FixIt<CR>
+" nnoremap <leader>jr :YcmCompleter RefactorRename
+" nnoremap <leader>jo :YcmCompleter OrganizeImports<CR>
+" nnoremap <leader>jg :YcmCompleter GoTo<CR>
+" nnoremap <leader>ji :YcmCompleter GoToImplementation<CR>
+" " nnoremap <leader>yc :YcmCompleter GoToDeclaration<CR>
+" autocmd FileType typescript nnoremap <C-]> :YcmCompleter GoToImplementationElseDeclaration<CR>
+" nnoremap <leader>js :YcmCompleter GoToSymbol<CR>
+" nnoremap <leader>jt :YcmCompleter GetType<CR>
+" nnoremap <leader>jd :YcmCompleter GetDoc<CR>
 
 " autocmd FileType typescript map gd :YcmCompleter GoToDefinition<CR>
 " autocmd FileType typescript map gt :YcmCompleter GoToType<CR>
@@ -268,3 +270,93 @@ if has("autocmd")
     autocmd bufwritepost .vimrc source ~/.vimrc
   augroup END
 endif
+
+" Decode URI encoded characters
+function! DecodeURI(uri)
+    return substitute(a:uri, '%\([a-fA-F0-9][a-fA-F0-9]\)', '\=nr2char("0x" . submatch(1))', "g")
+endfunction
+
+" Attempt to clear non-focused buffers with matching name
+function! ClearDuplicateBuffers(uri)
+    " if our filename has URI encoded characters
+    if DecodeURI(a:uri) !=# a:uri
+        " wipeout buffer with URI decoded name - can print error if buffer in focus
+        sil! exe "bwipeout " . fnameescape(DecodeURI(a:uri))
+        " change the name of the current buffer to the URI decoded name
+        exe "keepalt file " . fnameescape(DecodeURI(a:uri))
+        " ensure we don't have any open buffer matching non-URI decoded name
+        sil! exe "bwipeout " . fnameescape(a:uri)
+    endif
+endfunction
+
+function! RzipOverride()
+    " Disable vim-rzip's autocommands
+    autocmd! zip BufReadCmd   zipfile:*,zipfile:*/*
+    exe "au! zip BufReadCmd ".g:zipPlugin_ext
+
+    " order is important here, setup name of new buffer correctly then fallback to vim-rzip's handling
+    autocmd zip BufReadCmd   zipfile:*  call ClearDuplicateBuffers(expand("<amatch>"))
+    autocmd zip BufReadCmd   zipfile:*  call rzip#Read(DecodeURI(expand("<amatch>")), 1)
+
+    if has("unix")
+        autocmd zip BufReadCmd   zipfile:*/*  call ClearDuplicateBuffers(expand("<amatch>"))
+        autocmd zip BufReadCmd   zipfile:*/*  call rzip#Read(DecodeURI(expand("<amatch>")), 1)
+    endif
+
+    exe "au zip BufReadCmd ".g:zipPlugin_ext."  call rzip#Browse(DecodeURI(expand('<amatch>')))"
+endfunction
+
+autocmd VimEnter * call RzipOverride()
+
+
+" Use tab for trigger completion with characters ahead and navigate.
+" NOTE: Use command ':verbose imap <tab>' to make sure tab is not mapped by
+" other plugin before putting this into your config.
+inoremap <silent><expr> <TAB>
+      \ pumvisible() ? "\<C-n>" :
+      \ <SID>check_back_space() ? "\<TAB>" :
+      \ coc#refresh()
+inoremap <expr><S-TAB> pumvisible() ? "\<C-p>" : "\<C-h>"
+
+function! s:check_back_space() abort
+  let col = col('.') - 1
+  return !col || getline('.')[col - 1]  =~# '\s'
+endfunction
+
+let g:coc_global_extensions = ['coc-json', 'coc-git', 'coc-yaml', 'coc-snippets', 'coc-prettier', 'coc-jest']
+
+" Use <c-space> to trigger completion.
+if has('nvim')
+  inoremap <silent><expr> <c-space> coc#refresh()
+else
+  inoremap <silent><expr> <c-@> coc#refresh()
+endif
+
+" Make <CR> auto-select the first completion item and notify coc.nvim to
+" format on enter, <cr> could be remapped by other vim plugin
+inoremap <silent><expr> <cr> pumvisible() ? coc#_select_confirm()
+                              \: "\<C-g>u\<CR>\<c-r>=coc#on_enter()\<CR>"
+
+" Use `[g` and `]g` to navigate diagnostics
+" Use `:CocDiagnostics` to get all diagnostics of current buffer in location list.
+nmap <silent> [g <Plug>(coc-diagnostic-prev)
+nmap <silent> ]g <Plug>(coc-diagnostic-next)
+
+" GoTo code navigation.
+nmap <silent> gd <Plug>(coc-definition)
+nmap <silent> gy <Plug>(coc-type-definition)
+nmap <silent> gi <Plug>(coc-implementation)
+nmap <silent> gr <Plug>(coc-references)
+" Symbol renaming.
+nmap <leader>rn <Plug>(coc-rename)
+
+" Remap keys for applying codeAction to the current line.
+nmap <leader>ac  <Plug>(coc-codeaction)
+" Apply AutoFix to problem on the current line.
+nmap <leader>qf  <Plug>(coc-fix-current)
+
+command! -nargs=0 Prettier :call CocAction('runCommand', 'prettier.formatFile')
+" Formatting selected code.
+xmap <leader>p  <Plug>(coc-format-selected)
+nmap <leader>p  <Plug>(coc-format-selected)
+inoremap <expr> <cr> coc#pum#visible() ? coc#_select_confirm() : "\<CR>"

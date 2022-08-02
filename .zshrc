@@ -1,3 +1,5 @@
+
+export ZSH_DISABLE_COMPFIX=true
 export ZSH=$HOME/.oh-my-zsh
 
 ZSH_THEME="mortalit"
@@ -8,7 +10,7 @@ EMAIL="mark.sims@acuris.com"
 CASE_SENSITIVE="true"
 ENABLE_CORRECTION="true"
 
-plugins=(git ruby brew node docker emoji go npm nvm osx aws docker-compose)
+plugins=(git ruby brew node docker emoji golang npm nvm macos aws docker-compose zsh-autosuggestions zsh-syntax-highlighting web-search)
 
 bindkey -v
 
@@ -21,9 +23,10 @@ source $ZSH/oh-my-zsh.sh
 export NPM_USERNAME=mark.sims@acuris.com
 export NPM_PASSWORD=AKCp5ZkxLtfhQhfGFQat7RsnoZ521GqNuu8gUjfPc7L65wpVAK814KUpBD8D1R9RztWimT89T
 export NVM_DIR="$HOME/.nvm"
-. "/usr/local/opt/nvm/nvm.sh"
 
 [[ -s "$HOME/.rvm/scripts/rvm" ]] && . "$HOME/.rvm/scripts/rvm"
+[ -s "/opt/homebrew/opt/nvm/nvm.sh" ] && . "/opt/homebrew/opt/nvm/nvm.sh"  # This loads nvm
+[ -s "/opt/homebrew/opt/nvm/etc/bash_completion.d/nvm" ] && . "/opt/homebrew/opt/nvm/etc/bash_completion.d/nvm"
 
 alias vi="nvim"
 alias vim="nvim"
@@ -54,3 +57,7 @@ bindkey "^[[B" down-line-or-beginning-search # Down
 export GPG_TTY=$(tty)
 export PATH="/opt/homebrew/bin:/usr/local/bin:$PATH"
 alias ibrew='arch -x86_64 /usr/local/bin/brew'
+alias python=/usr/local/bin/python3
+[ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
+nvm use default
+export PATH="/opt/homebrew/sbin:$PATH"
