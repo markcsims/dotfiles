@@ -15,17 +15,7 @@ Plug 'jeffkreeftmeijer/vim-numbertoggle'
 
 Plug 'ctrlpvim/ctrlp.vim'
 Plug 'editorconfig/editorconfig-vim'
-" Plug 'Valloric/YouCompleteMe'
 Plug 'lbrayner/vim-rzip'
-
-" Plug 'mhartington/nvim-typescript', {'do': './install.sh'}
-" if has('nvim')
-"   Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
-" else
-"   Plug 'Shougo/deoplete.nvim'
-"   Plug 'roxma/nvim-yarp'
-"   Plug 'roxma/vim-hug-neovim-rpc'
-" endif
 
 Plug 'scrooloose/syntastic'
 Plug 'ternjs/tern_for_vim', { 'do': 'npm install' }
@@ -36,10 +26,8 @@ Plug 'godoctor/godoctor.vim'
 Plug 'jelera/vim-javascript-syntax'
 Plug 'leafgarland/typescript-vim'
 Plug 'peitalin/vim-jsx-typescript'
-" Plug 'Quramy/tsuquyomi'
 Plug 'SirVer/ultisnips'
 Plug 'luochen1990/rainbow'
-" Plug 'prettier/vim-prettier', { 'do': 'yarn install --frozen-lockfile --production' }
 Plug 'pangloss/vim-javascript'
 Plug 'fatih/vim-go'
 Plug 'jlanzarotta/bufexplorer'
@@ -47,12 +35,7 @@ Plug 'jlanzarotta/bufexplorer'
 Plug 'scrooloose/nerdtree', { 'on': 'NERDTreeToggle' }
 Plug 'OmniSharp/omnisharp-vim'
 Plug 'neoclide/coc.nvim', {'branch': 'release'}
-" Plug 'prabirshrestha/asyncomplete.vim'
 Plug 'github/copilot.vim'
-
-" Plug '/usr/local/opt/fzf'
-" Plug 'junegunn/fzf.vim'
-" Plug 'jiangmiao/auto-pairs'
 
 call plug#end()
 
@@ -66,9 +49,6 @@ let g:rainbow_conf = {
 \   'ctermfgs': ['LightBlue', 'LightMagenta', 'LightGreen', 'LightCyan', 'LightRed', 'LightYellow']
 \}
 let g:rainbow_active = 1
-" let g:ycm_autoclose_preview_window_after_insertion = 1
-" let g:ycm_autoclose_preview_window_after_completion = 1
-" let g:deoplete#enable_at_startup = 1
 
 let g:netrw_liststyle=3
 let g:move_key_modifier = 'C'
@@ -83,7 +63,6 @@ set statusline+=%#warningmsg#
 set statusline+=%{SyntasticStatuslineFlag()}
 set statusline+=%*
 
-"
 let g:typescript_indent_disable = 1
 let g:typescript_compiler_binary = 'tsc'
 let g:typescript_compiler_options = '--module commonjs --target ES2016 --lib ES2015 --experimentalDecorators'
@@ -106,7 +85,6 @@ let g:airline_theme='badwolf'
 let g:airline#extensions#tabline#fnamemod = ':t'
 let g:airline_powerline_fonts = 1
 let g:UseNumberToggleTrigger = 0
-" let g:prettier#exec_cmd_async = 1
 
 set rtp+=~/.vim/godoctor.vim
 set t_Co=256
@@ -206,33 +184,6 @@ map <C-l> :SyntasticCheck<CR>
 
 nnoremap <C-y> "+y
 vnoremap <C-y> "+y
-
-" nnoremap <leader>jf :YcmCompleter FixIt<CR>
-" nnoremap <leader>jr :YcmCompleter RefactorRename
-" nnoremap <leader>jo :YcmCompleter OrganizeImports<CR>
-" nnoremap <leader>jg :YcmCompleter GoTo<CR>
-" nnoremap <leader>ji :YcmCompleter GoToImplementation<CR>
-" " nnoremap <leader>yc :YcmCompleter GoToDeclaration<CR>
-" autocmd FileType typescript nnoremap <C-]> :YcmCompleter GoToImplementationElseDeclaration<CR>
-" nnoremap <leader>js :YcmCompleter GoToSymbol<CR>
-" nnoremap <leader>jt :YcmCompleter GetType<CR>
-" nnoremap <leader>jd :YcmCompleter GetDoc<CR>
-
-" autocmd FileType typescript map gd :YcmCompleter GoToDefinition<CR>
-" autocmd FileType typescript map gt :YcmCompleter GoToType<CR>
-" autocmd FileType typescript map gr :YcmCompleter GoToReferences<CR>
-" autocmd FileType typescript map gn :YcmCompleter RefactorRename
-" autocmd FileType typescript map K :YcmCompleter GetDoc<CR>
-
-" autocmd FileType go map gd :YcmCompleter GoTo<CR>
-" autocmd FileType go map gt :YcmCompleter GoToType<CR>
-" autocmd FileType go map gr :YcmCompleter GoToReferences<CR>
-" autocmd FileType go map gn :YcmCompleter RefactorRename
-" autocmd FileType go map K :YcmCompleter GetDoc<CR>
-
-" Show type information automatically when the cursor stops moving.
-" Note that the type is echoed to the Vim command line, and will overwrite
-" any other messages in this space including e.g. ALE linting messages.
 autocmd CursorHold *.cs OmniSharpTypeLookup
 
 " The following commands are contextual, based on the cursor position.
@@ -258,7 +209,6 @@ autocmd FileType cs nmap <silent> <buffer> <Leader>osnm <Plug>(omnisharp_rename)
 autocmd FileType cs nmap <silent> <buffer> <Leader>osre <Plug>(omnisharp_restart_server)
 autocmd FileType cs nmap <silent> <buffer> <Leader>osst <Plug>(omnisharp_start_server)
 autocmd FileType cs nmap <silent> <buffer> <Leader>ossp <Plug>(omnisharp_stop_server)
-
 
 autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTreeType") && b:NERDTreeType == "primary") | q | endif
 
