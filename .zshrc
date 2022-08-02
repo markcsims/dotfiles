@@ -5,7 +5,7 @@ export ZSH=$HOME/.oh-my-zsh
 ZSH_THEME="mortalit"
 
 DEFAULT_USER="mark"
-EMAIL="mark.sims@acuris.com"
+EMAIL="mark.sims@bluepie.co.uk"
 
 CASE_SENSITIVE="true"
 ENABLE_CORRECTION="true"
@@ -20,8 +20,6 @@ export PATH=~/dev/mm/mmgaws:$PATH
 
 source $ZSH/oh-my-zsh.sh
 
-export NPM_USERNAME=mark.sims@acuris.com
-export NPM_PASSWORD=AKCp5ZkxLtfhQhfGFQat7RsnoZ521GqNuu8gUjfPc7L65wpVAK814KUpBD8D1R9RztWimT89T
 export NVM_DIR="$HOME/.nvm"
 
 [[ -s "$HOME/.rvm/scripts/rvm" ]] && . "$HOME/.rvm/scripts/rvm"

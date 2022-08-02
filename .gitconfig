@@ -1,7 +1,3 @@
-[user]
-  email = mark@bluepie.co.uk
-  name = Mark Sims
-  signingkey = B22566803E1E09D0
 [push]
   default = simple
 [credential]
