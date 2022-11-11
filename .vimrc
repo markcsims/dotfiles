@@ -3,7 +3,7 @@ call plug#begin()
 Plug 'chriskempson/base16-vim'
 Plug 'vim-airline/vim-airline'
 Plug 'vim-airline/vim-airline-themes'
-Plug 'flazz/vim-colorschemes'
+Plug 'edeneast/nightfox.nvim'
 Plug 'matze/vim-move'
 Plug 'tpope/vim-sensible'
 Plug 'tpope/vim-commentary'
@@ -11,14 +11,11 @@ Plug 'tpope/vim-surround'
 Plug 'tpope/vim-markdown'
 Plug 'tpope/vim-repeat'
 Plug 'tpope/vim-vinegar'
-Plug 'jeffkreeftmeijer/vim-numbertoggle'
 
 Plug 'ctrlpvim/ctrlp.vim'
 Plug 'editorconfig/editorconfig-vim'
 Plug 'lbrayner/vim-rzip'
 
-Plug 'scrooloose/syntastic'
-Plug 'ternjs/tern_for_vim', { 'do': 'npm install' }
 Plug 'mileszs/ack.vim'
 
 Plug 'sheerun/vim-polyglot'
@@ -26,16 +23,23 @@ Plug 'godoctor/godoctor.vim'
 Plug 'jelera/vim-javascript-syntax'
 Plug 'leafgarland/typescript-vim'
 Plug 'peitalin/vim-jsx-typescript'
-Plug 'SirVer/ultisnips'
-Plug 'luochen1990/rainbow'
 Plug 'pangloss/vim-javascript'
+Plug 'maxmellon/vim-jsx-pretty'   " JS and JSX syntax
+" Plug 'jparise/vim-graphql'        " GraphQL syntax
 Plug 'fatih/vim-go'
-Plug 'jlanzarotta/bufexplorer'
 
 Plug 'scrooloose/nerdtree', { 'on': 'NERDTreeToggle' }
-Plug 'OmniSharp/omnisharp-vim'
 Plug 'neoclide/coc.nvim', {'branch': 'release'}
-Plug 'github/copilot.vim'
+" Plug 'github/copilot.vim'
+Plug 'nvim-lua/plenary.nvim'
+Plug 'nvim-telescope/telescope.nvim', { 'tag': 'release' }
+Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}
+Plug 'p00f/nvim-ts-rainbow'
+
+" try color scheme https://github.com/navarasu/onedark.nvim Plug 'navarasu/onedark.nvim'
+" https://vimcolorschemes.com/
+" was ron
+" https://github.com/nvim-treesitter/nvim-treesitter + nvim-ts-rainbow
 
 call plug#end()
 
@@ -60,18 +64,11 @@ let g:ctrlp_custom_ignore = {
   \ 'dir': '\v[\/](dist|node_modules|\.yarn|\.git|\.serverless|\.jest-cache|build|build-cjs)$',
   \ }
 set statusline+=%#warningmsg#
-set statusline+=%{SyntasticStatuslineFlag()}
 set statusline+=%*
 
 let g:typescript_indent_disable = 1
 let g:typescript_compiler_binary = 'tsc'
 let g:typescript_compiler_options = '--module commonjs --target ES2016 --lib ES2015 --experimentalDecorators'
-let g:syntastic_typescript_tsc_args = "--module commonjs --target ES2016 --lib ES2015 --experimentalDecorators"
-let g:syntastic_always_populate_loc_list = 1
-let g:syntastic_loc_list_height = 5
-let g:syntastic_auto_loc_list = 1
-let g:syntastic_typescript_checkers = ['tsuquyomi']
-let g:syntastic_cs_checkers = ['code_checker']
 
 let g:go_highlight_functions = 1
 let g:go_highlight_methods = 1
@@ -150,7 +147,7 @@ let macvim_skip_colorscheme = 1
 set sessionoptions=resize,winpos,winsize,buffers,tabpages,folds,curdir,help
 set list listchars=eol:¬,tab:>-,trail:·,extends:>,precedes:<
 set background=dark
-colorscheme ron
+colorscheme Carbonfox
 
 noremap <C-h>  <C-w>h
 noremap <C-j>  <C-w>j
@@ -180,7 +177,6 @@ nnoremap <Leader>tm  :tabm<Space>
 nnoremap <Leader>td  :tabclose<CR>
 
 map <C-n> :NERDTreeToggle<CR>
-map <C-l> :SyntasticCheck<CR>
 
 nnoremap <C-y> "+y
 vnoremap <C-y> "+y
@@ -273,7 +269,7 @@ function! s:check_back_space() abort
   return !col || getline('.')[col - 1]  =~# '\s'
 endfunction
 
-let g:coc_global_extensions = ['coc-json', 'coc-git', 'coc-yaml', 'coc-snippets', 'coc-prettier', 'coc-jest']
+let g:coc_global_extensions = ['coc-json', 'coc-git', 'coc-yaml', 'coc-snippets', 'coc-prettier', 'coc-jest', 'coc-eslint', 'coc-tsserver']
 
 " Use <c-space> to trigger completion.
 if has('nvim')
@@ -310,3 +306,31 @@ command! -nargs=0 Prettier :call CocAction('runCommand', 'prettier.formatFile')
 xmap <leader>p  <Plug>(coc-format-selected)
 nmap <leader>p  <Plug>(coc-format-selected)
 inoremap <expr> <cr> coc#pum#visible() ? coc#_select_confirm() : "\<CR>"
+
+nnoremap <leader>ff <cmd>Telescope find_files<cr>
+nnoremap <leader>fg <cmd>Telescope live_grep<cr>
+nnoremap <leader>fb <cmd>Telescope buffers<cr>
+nnoremap <leader>fh <cmd>Telescope help_tags<cr>
+
+
+lua << END
+require('telescope').setup{  defaults = { file_ignore_patterns = { "build" }} }
+require'nvim-treesitter.configs'.setup {
+  ensure_installed = { "bash", "dockerfile", "go", "gitignore", "git_rebase", "graphql", "javascript", "json", "markdown", "typescript", "vim", "yaml", "help" },
+  sync_install = false,
+  auto_install = true,
+  highlight = {
+    -- `false` will disable the whole extension
+    enable = true,
+    additional_vim_regex_highlighting = false,
+  },
+  rainbow = {
+    enable = true,
+    -- disable = { "jsx", "cpp" }, list of languages you want to disable the plugin for
+    extended_mode = true, -- Also highlight non-bracket delimiters like html tags, boolean or table: lang -> boolean
+    max_file_lines = nil, -- Do not enable for files with more than n lines, int
+    -- colors = {}, -- table of hex strings
+    -- termcolors = {} -- table of colour name strings
+  }
+}
+END
