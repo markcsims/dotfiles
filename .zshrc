@@ -52,6 +52,7 @@ alias retab="ex +'set ts=2' +'bufdo retab' -scxa"
 
 bindkey "^[[A" up-line-or-beginning-search # Up
 bindkey "^[[B" down-line-or-beginning-search # Down
+
 export GPG_TTY=$(tty)
 export PATH="/opt/homebrew/bin:/usr/local/bin:$PATH"
 alias ibrew='arch -x86_64 /usr/local/bin/brew'
