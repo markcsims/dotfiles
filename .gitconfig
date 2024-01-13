@@ -1,5 +1,6 @@
 [push]
   default = simple
+  autoSetupRemote = true
 [credential]
   helper = osxkeychain
 [core]
@@ -12,13 +13,16 @@
   diff2 = diff --compaction-heuristic
   fix = "!f() { ${EDITOR} `git diff --name-only`; }; f"
   clean-branches = !git branch | grep -v master | xargs git branch -D
+  clone-for-worktrees = "!sh $HOME/git-clone-bare-for-worktrees.sh"
 [filter "lfs"]
   required = true
   clean = git-lfs clean -- %f
   smudge = git-lfs smudge -- %f
   process = git-lfs filter-process
 [commit]
-	gpsign = true
-	gpgsign = true
+  gpsign = true
+  gpgsign = true
 [http]
-	postBuffer = 157286400
+  postBuffer = 157286400
+[init]
+  defaultBranch = master

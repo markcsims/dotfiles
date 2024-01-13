@@ -15,6 +15,7 @@
 --ignore-file=match:/[.]js[.]min$
 --ignore-file=match:/[.-]chunk[.]js$/
 --ignore-file=match:/[.]js[.]chunk$
+--ignore-file=match:.eslintcache
 --ignore-file=match:/[.]tsbuildinfo$/
 
 
