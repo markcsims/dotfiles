@@ -1,4 +1,3 @@
-
 export ZSH_DISABLE_COMPFIX=true
 export ZSH=$HOME/.oh-my-zsh
 
@@ -46,7 +45,7 @@ if [ -d "$HOME/bin" ] ; then
    PATH="$HOME/bin:$PATH"
 fi
 
-export TERM="xterm-256color"
+# export TERM="xterm-256color"
 alias trim="ex +'bufdo!%s/\s\+$//e' -scxa"
 alias retab="ex +'set ts=2' +'bufdo retab' -scxa"
 
@@ -58,5 +57,5 @@ export PATH="/opt/homebrew/bin:/usr/local/bin:$PATH"
 alias ibrew='arch -x86_64 /usr/local/bin/brew'
 alias python=/usr/local/bin/python3
 [ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
-nvm use default
+nvm use 
 export PATH="/opt/homebrew/sbin:$PATH"
