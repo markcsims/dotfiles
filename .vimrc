@@ -32,7 +32,7 @@ Plug 'fatih/vim-go'
 Plug 'scrooloose/nerdtree', { 'on': 'NERDTreeToggle' }
 Plug 'neoclide/coc.nvim', {'branch': 'release'}
 " Run this after: :CocCommand tsserver.chooseVersion - select local version
-" Plug 'github/copilot.vim'
+Plug 'github/copilot.vim'
 Plug 'nvim-lua/plenary.nvim'
 Plug 'nvim-telescope/telescope.nvim'
 Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}
@@ -140,7 +140,8 @@ let macvim_skip_colorscheme = 1
 set sessionoptions=resize,winpos,winsize,buffers,tabpages,folds,curdir,help
 set list listchars=eol:¬,tab:>-,trail:·,extends:>,precedes:<
 set background=dark
-colorscheme Carbonfox
+colorscheme carbonfox
+" https://github.com/EdenEast/nightfox.nvim was carbonfox
 
 noremap <C-h>  <C-w>h
 noremap <C-j>  <C-w>j
@@ -311,9 +312,24 @@ nnoremap <leader>fg <cmd>Telescope live_grep<cr>
 nnoremap <leader>fb <cmd>Telescope buffers<cr>
 nnoremap <leader>fh <cmd>Telescope help_tags<cr>
 
+nnoremap <leader>ss :let _s=@/<Bar>:%s/\s\+$//e<Bar>:let @/=_s<Bar><CR>
 
 lua << END
-require('telescope').setup{  defaults = { file_ignore_patterns = { "build" }} }
+require('telescope').setup{
+  defaults = {
+    vimgrep_arguments = {
+      'rg',
+      '--color=never',
+      '--no-heading',
+      '--with-filename',
+      '--line-number',
+      '--column',
+      '--smart-case',
+      '--ignore-file',
+      '.gitignore'
+    }
+  }
+}
 require'nvim-treesitter.configs'.setup {
   ensure_installed = { "bash", "dockerfile", "go", "gitignore", "git_rebase", "graphql", "javascript", "json", "markdown", "typescript", "vim", "yaml" },
   sync_install = false,

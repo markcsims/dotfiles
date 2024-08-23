@@ -14,6 +14,7 @@
   fix = "!f() { ${EDITOR} `git diff --name-only`; }; f"
   clean-branches = !git branch | grep -v master | xargs git branch -D
   clone-for-worktrees = "!sh $HOME/git-clone-bare-for-worktrees.sh"
+  clone-wt = clone-for-worktrees
 [filter "lfs"]
   required = true
   clean = git-lfs clean -- %f
