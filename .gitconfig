@@ -7,6 +7,7 @@
   editor = nvim
 [rerere]
   enabled = true
+	autoupdate = true
 [alias]
   ll =  log --color --graph --all --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit
   ls =  log --oneline --graph --decorate
@@ -22,8 +23,24 @@
   process = git-lfs filter-process
 [commit]
   gpsign = true
-  gpgsign = true
 [http]
   postBuffer = 157286400
 [init]
   defaultBranch = master
+[column]
+	ui = auto
+[branch]
+	sort = -committerdate
+[diff]
+	algorithm = histogram
+	colorMoved = plain
+	mnemonicPrefix = true
+	renames = true
+[fetch]
+	prune = true
+	pruneTags = true
+	all = true
+[help]
+	autocorrect = prompt
+[pull]
+	rebase = true
