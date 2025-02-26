@@ -7,7 +7,7 @@
   editor = nvim
 [rerere]
   enabled = true
-	autoupdate = true
+  autoupdate = true
 [alias]
   ll =  log --color --graph --all --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit
   ls =  log --oneline --graph --decorate
@@ -28,19 +28,19 @@
 [init]
   defaultBranch = master
 [column]
-	ui = auto
+  gui = auto
 [branch]
-	sort = -committerdate
+  gsort = -committerdate
 [diff]
-	algorithm = histogram
-	colorMoved = plain
-	mnemonicPrefix = true
-	renames = true
+  galgorithm = histogram
+  gcolorMoved = plain
+  gmnemonicPrefix = true
+  grenames = true
 [fetch]
-	prune = true
-	pruneTags = true
-	all = true
+  gprune = true
+  gpruneTags = true
+  gall = true
 [help]
-	autocorrect = prompt
+  gautocorrect = prompt
 [pull]
-	rebase = true
+  grebase = true
