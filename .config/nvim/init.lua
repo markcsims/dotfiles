@@ -15,13 +15,20 @@ vim.opt.rtp:prepend(lazypath)
 require('lazy').setup({
   -- Colorschemes & UI
   { 'EdenEast/nightfox.nvim' },
+  { 'nvim-tree/nvim-tree.lua' },
+  { 'nvim-lualine/lualine.nvim' },
   { 'tpope/vim-surround' },
   { 'tpope/vim-repeat' },
   { 'matze/vim-move' },
-  -- File navigation
-  -- Search
-  -- Language support
-  -- Completion & LSP
+  -- LSP and completion
+  { 'neovim/nvim-lspconfig' },
+  { 'hrsh7th/nvim-cmp' },
+  { 'hrsh7th/cmp-nvim-lsp' },
+  { 'hrsh7th/cmp-buffer' },
+  { 'hrsh7th/cmp-path' },
+  { 'hrsh7th/cmp-cmdline' },
+  { 'L3MON4D3/LuaSnip' },
+  { 'zbirenbaum/copilot-cmp' },
   { 'github/copilot.vim' },
   -- Neovim native plugins
   { 'nvim-lua/plenary.nvim' },
@@ -29,7 +36,26 @@ require('lazy').setup({
   { 'nvim-treesitter/nvim-treesitter', build = ':TSUpdate' },
 })
 
--- General settings
+require('nvim-tree').setup {}
+require('lualine').setup {
+  options = {
+    theme = 'nightfox',
+    section_separators = {'', ''},
+    component_separators = {'', ''},
+    icons_enabled = true,
+    globalstatus = true,
+  },
+  sections = {
+    lualine_a = {'mode'},
+    lualine_b = {'branch', 'diff', 'diagnostics'},
+    lualine_c = {'filename'},
+    lualine_x = {'encoding', 'fileformat', 'filetype'},
+    lualine_y = {'progress'},
+    lualine_z = {'location'}
+  },
+  tabline = {},
+  extensions = {'nvim-tree', 'quickfix', 'fugitive'}
+}
 vim.opt.backup = false
 vim.opt.laststatus = 2
 vim.opt.autowrite = true
@@ -71,20 +97,6 @@ vim.opt.listchars = { eol = '¬', tab = '>-', trail = '·', extends = '>', prece
 vim.opt.background = 'dark'
 vim.cmd('colorscheme carbonfox')
 
--- Airline
-
--- NERDTree
--- netrw
-
--- ctrlp
-
--- Typescript
-
--- Go
-
--- Polyglot
-
--- Key mappings
 local map = vim.keymap.set
 map('n', '<C-h>', '<C-w>h')
 map('n', '<C-j>', '<C-w>j')
@@ -107,10 +119,43 @@ map('n', '<Leader>fg', '<cmd>Telescope live_grep<cr>')
 map('n', '<Leader>fb', '<cmd>Telescope buffers<cr>')
 map('n', '<Leader>fh', '<cmd>Telescope help_tags<cr>')
 map('n', '<Leader>ss', [[:let _s=@/ | %s/\s\+$//e | let @/=_s |<CR>]], { silent = true })
+map('n', '<C-n>', ':NvimTreeToggle<CR>')
 
--- Coc.nvim mappings (some may need to be set after plugin loads)
+local lspconfig = require('lspconfig')
+lspconfig.lua_ls.setup {}
+if lspconfig.ts_ls and type(lspconfig.ts_ls.setup) == 'function' then
+  lspconfig.ts_ls.setup {}
+elseif lspconfig.tsserver and type(lspconfig.tsserver.setup) == 'function' then
+  lspconfig.tsserver.setup {}
+end
+lspconfig.gopls.setup {}
 
--- Treesitter config
+local cmp = require('cmp')
+require('copilot_cmp').setup()
+cmp.setup {
+  snippet = {
+    expand = function(args)
+      require('luasnip').lsp_expand(args.body)
+    end,
+  },
+  mapping = cmp.mapping.preset.insert({
+    ['<C-b>'] = cmp.mapping.scroll_docs(-4),
+    ['<C-f>'] = cmp.mapping.scroll_docs(4),
+    ['<C-Space>'] = cmp.mapping.complete(),
+    ['<CR>'] = cmp.mapping.confirm({ select = true }),
+    ['<Tab>'] = cmp.mapping.select_next_item(),
+    ['<S-Tab>'] = cmp.mapping.select_prev_item(),
+  }),
+  sources = cmp.config.sources({
+    { name = 'copilot' },
+    { name = 'nvim_lsp' },
+    { name = 'luasnip' },
+  }, {
+    { name = 'buffer' },
+    { name = 'path' },
+  })
+}
+
 require'nvim-treesitter.configs'.setup {
   ensure_installed = { "bash", "dockerfile", "go", "gitignore", "git_rebase", "graphql", "javascript", "json", "markdown", "typescript", "vim", "yaml" },
   sync_install = false,
@@ -121,7 +166,6 @@ require'nvim-treesitter.configs'.setup {
   }
 }
 
--- Telescope config
 require('telescope').setup{
   defaults = {
     vimgrep_arguments = {
@@ -138,14 +182,12 @@ require('telescope').setup{
   }
 }
 
--- Autocommands (Lua API)
 vim.api.nvim_create_autocmd('BufNewFile', {
   pattern = '*.razor',
   command = 'set syntax=html',
 })
 
 
--- Source config on write
 vim.api.nvim_create_autocmd('BufWritePost', {
   pattern = 'init.lua',
   command = 'source ~/.config/nvim/init.lua',
