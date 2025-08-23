@@ -1,7 +1,3 @@
--- Modernized Neovim config (init.lua) based on your .vimrc
--- Uses lazy.nvim for plugin management
--- Place this file at ~/.config/nvim/init.lua
-
 -- Bootstrap lazy.nvim if not installed
 local lazypath = vim.fn.stdpath('data') .. '/lazy/lazy.nvim'
 if not vim.loop.fs_stat(lazypath) then
