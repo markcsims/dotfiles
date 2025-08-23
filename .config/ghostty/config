@@ -1,0 +1,13 @@
+# ghostty +list-themes
+theme = tokyonight
+# ghostty +list-fonts
+font-family = Hack Nerd Font Mono, Hack, FiraCode Nerd Font Mono, Fira Code, Menlo, monospace
+font-size = 16
+cursor-style = block
+cursor-style-blink = false
+cursor-color = e933e1
+background-opacity = 0.97
+background = 161616
+foreground = d1d3d4
+mouse-hide-while-typing = true
+initial-command = /opt/homebrew/bin/tmux attach -t base || /opt/homebrew/bin/tmux new -s base
