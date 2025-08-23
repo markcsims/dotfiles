@@ -10,4 +10,4 @@ background-opacity = 0.97
 background = 161616
 foreground = d1d3d4
 mouse-hide-while-typing = true
-initial-command = /opt/homebrew/bin/tmux attach -t base || /opt/homebrew/bin/tmux new -s base
+initial-command = zsh -c 'tmux attach -t base || tmux new -s base'
