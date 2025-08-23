@@ -34,9 +34,9 @@ require('lazy').setup({
   { 'nvim-lua/plenary.nvim' },
   { 'nvim-telescope/telescope.nvim' },
   { 'nvim-treesitter/nvim-treesitter', build = ':TSUpdate' },
-  { 'CopilotCNC/CopilotChat.nvim', dependencies = { 'github/copilot.vim' } },
-})
+  -- { 'CopilotCNC/CopilotChat.nvim', dependencies = { 'github/copilot.vim' } },
 
+})
 require('nvim-tree').setup {}
 require('lualine').setup {
   options = {
@@ -120,8 +120,8 @@ map('n', '<Leader>fg', '<cmd>Telescope live_grep<cr>')
 map('n', '<Leader>fb', '<cmd>Telescope buffers<cr>')
 map('n', '<Leader>fh', '<cmd>Telescope help_tags<cr>')
 map('n', '<Leader>ss', [[:let _s=@/ | %s/\s\+$//e | let @/=_s |<CR>]], { silent = true })
-map('n', '<Leader>cc', ':CopilotChat<CR>', { desc = 'Open Copilot Chat' })
 map('n', '<C-n>', ':NvimTreeToggle<CR>')
+-- map('n', '<Leader>cc', ':CopilotChat<CR>', { desc = 'Open Copilot Chat' })
 
 local lspconfig = require('lspconfig')
 lspconfig.lua_ls.setup {}
