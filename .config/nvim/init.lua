@@ -15,44 +15,21 @@ vim.opt.rtp:prepend(lazypath)
 require('lazy').setup({
   -- Colorschemes & UI
   { 'EdenEast/nightfox.nvim' },
-  { 'chriskempson/base16-vim' },
-  { 'vim-airline/vim-airline' },
-  { 'vim-airline/vim-airline-themes' },
-  -- Essentials
-  { 'tpope/vim-sensible' },
-  { 'tpope/vim-commentary' },
   { 'tpope/vim-surround' },
-  { 'tpope/vim-markdown' },
   { 'tpope/vim-repeat' },
-  { 'tpope/vim-vinegar' },
   { 'matze/vim-move' },
   -- File navigation
-  { 'scrooloose/nerdtree', cmd = 'NERDTreeToggle' },
-  { 'ctrlpvim/ctrlp.vim' },
-  { 'editorconfig/editorconfig-vim' },
   -- Search
-  { 'mileszs/ack.vim' },
   -- Language support
-  { 'sheerun/vim-polyglot' },
-  { 'godoctor/godoctor.vim' },
-  { 'jelera/vim-javascript-syntax' },
-  { 'leafgarland/typescript-vim' },
-  { 'peitalin/vim-jsx-typescript' },
-  { 'pangloss/vim-javascript' },
-  { 'maxmellon/vim-jsx-pretty' },
-  { 'fatih/vim-go' },
   -- Completion & LSP
-  { 'neoclide/coc.nvim', branch = 'release' },
   { 'github/copilot.vim' },
   -- Neovim native plugins
   { 'nvim-lua/plenary.nvim' },
   { 'nvim-telescope/telescope.nvim' },
   { 'nvim-treesitter/nvim-treesitter', build = ':TSUpdate' },
-  -- { 'HiPhish/rainbow-delimiters.nvim' }, -- Uncomment if needed
 })
 
 -- General settings
-vim.opt.backup = true
 vim.opt.backup = false
 vim.opt.laststatus = 2
 vim.opt.autowrite = true
@@ -60,7 +37,6 @@ vim.opt.ruler = true
 vim.opt.timeoutlen = 500
 vim.opt.hidden = true
 vim.opt.binary = true
-vim.opt.history = 1000
 vim.opt.incsearch = true
 vim.opt.synmaxcol = 256
 vim.opt.smarttab = true
@@ -96,43 +72,17 @@ vim.opt.background = 'dark'
 vim.cmd('colorscheme carbonfox')
 
 -- Airline
-vim.g['airline#extensions#tabline#enabled'] = 1
-vim.g.airline_theme = 'badwolf'
-vim.g['airline#extensions#tabline#fnamemod'] = ':t'
-vim.g.airline_powerline_fonts = 1
-vim.g.UseNumberToggleTrigger = 0
 
 -- NERDTree
-vim.g.NERDTreeShowHidden = 1
-
 -- netrw
-vim.g.netrw_liststyle = 3
 
 -- ctrlp
-vim.g.move_key_modifier = 'C'
-vim.g.ctrlp_map = '<c-p>'
-vim.g.ctrlp_cmd = 'CtrlP'
-vim.g.ctrlp_working_path_mode = 'ra'
-vim.g.ctrlp_show_hidden = 1
-vim.g.ctrlp_custom_ignore = {
-  dir = [[\v[\/](dist|node_modules|\.yarn|\.git|\.serverless|\.jest-cache|build|build-cjs)$]],
-}
 
 -- Typescript
-vim.g.typescript_indent_disable = 1
-vim.g.typescript_compiler_binary = 'tsc'
-vim.g.typescript_compiler_options = '--module commonjs --target ES2016 --lib ES2015 --experimentalDecorators'
 
 -- Go
-vim.g.go_highlight_functions = 1
-vim.g.go_highlight_methods = 1
-vim.g.go_highlight_fields = 1
-vim.g.go_highlight_types = 1
-vim.g.go_highlight_operators = 1
-vim.g.go_highlight_build_constraints = 1
 
 -- Polyglot
-vim.g.polyglot_disabled = { 'graphql' }
 
 -- Key mappings
 local map = vim.keymap.set
@@ -145,15 +95,11 @@ map('n', '<Leader>l', ':ls<CR>')
 map('n', '<Leader>b', ':bp<CR>')
 map('n', '<Leader>f', ':bn<CR>')
 map('n', '<Leader>g', ':e#<CR>')
-for i = 1, 10 do
-  map('n', '<Leader>' .. tostring(i % 10), ':' .. tostring(i) .. 'b<CR>')
-end
 map('n', '<Leader>tf', ':tabnext<CR>')
 map('n', '<Leader>tb', ':tabprev<CR>')
 map('n', '<Leader>tt', ':tabedit <Space>')
 map('n', '<Leader>tm', ':tabm <Space>')
 map('n', '<Leader>td', ':tabclose<CR>')
-map('n', '<C-n>', ':NERDTreeToggle<CR>')
 map('n', '<C-y>', '"+y')
 map('v', '<C-y>', '"+y')
 map('n', '<Leader>ff', '<cmd>Telescope find_files<cr>')
@@ -163,9 +109,6 @@ map('n', '<Leader>fh', '<cmd>Telescope help_tags<cr>')
 map('n', '<Leader>ss', [[:let _s=@/ | %s/\s\+$//e | let @/=_s |<CR>]], { silent = true })
 
 -- Coc.nvim mappings (some may need to be set after plugin loads)
-vim.g.coc_global_extensions = {
-  'coc-json', 'coc-git', 'coc-yaml', 'coc-snippets', 'coc-jest', 'coc-eslint', 'coc-tsserver'
-}
 
 -- Treesitter config
 require'nvim-treesitter.configs'.setup {
@@ -201,14 +144,6 @@ vim.api.nvim_create_autocmd('BufNewFile', {
   command = 'set syntax=html',
 })
 
-vim.api.nvim_create_autocmd('BufEnter', {
-  pattern = '*',
-  callback = function()
-    if vim.fn.winnr('$') == 1 and vim.b.NERDTreeType == 'primary' then
-      vim.cmd('q')
-    end
-  end,
-})
 
 -- Source config on write
 vim.api.nvim_create_autocmd('BufWritePost', {
