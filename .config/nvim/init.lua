@@ -27,6 +27,7 @@ require('lazy').setup({
   { 'zbirenbaum/copilot-cmp' },
   { 'github/copilot.vim' },
   -- Neovim native plugins
+  { 'akinsho/bufferline.nvim', version = "*", dependencies = 'nvim-tree/nvim-web-devicons' },
   { 'nvim-lua/plenary.nvim' },
   { 'nvim-telescope/telescope.nvim' },
   { 'nvim-treesitter/nvim-treesitter', build = ':TSUpdate' },
@@ -34,6 +35,7 @@ require('lazy').setup({
 
 })
 require('nvim-tree').setup {}
+require('bufferline').setup {}
 require('lualine').setup {
   options = {
     theme = 'nightfox',
