@@ -1,12 +1,12 @@
 -- Bootstrap lazy.nvim if not installed
-require('lualine').setup {
+local larequire('lualine').setup {
   options = {
     theme = 'nightfox',
     section_separators = { left = '', right = '' },
     component_separators = { left = '', right = '' },
     icons_enabled = true,
     globalstatus = true,
-  },zypath = vim.fn.stdpath('data') .. '/lazy/lazy.nvim'
+  }, vim.fn.stdpath('data') .. '/lazy/lazy.nvim'
 if not vim.uv.fs_stat(lazypath) then
   vim.fn.system({
     'git', 'clone', '--filter=blob:none',
@@ -35,14 +35,22 @@ require('lazy').setup({
   { 'saadparwaiz1/cmp_luasnip' },
   { 'zbirenbaum/copilot.lua', cmd = 'Copilot', event = 'InsertEnter', config = function() require('copilot').setup({}) end },
   { 'zbirenbaum/copilot-cmp', config = function() require('copilot_cmp').setup() end },
+  -- TypeScript/JavaScript enhancements
+  { 'windwp/nvim-autopairs', event = 'InsertEnter', config = function() require('nvim-autopairs').setup({}) end },
+  { 'windwp/nvim-ts-autotag', config = function() require('nvim-ts-autotag').setup({}) end },
+  { 'JoosepAlviste/nvim-ts-context-commentstring' },
+  { 'numToStr/Comment.nvim', config = function() require('Comment').setup({
+    pre_hook = require('ts_context_commentstring.integrations.comment_nvim').create_pre_hook(),
+  }) end },
+  { 'folke/trouble.nvim', dependencies = { 'nvim-tree/nvim-web-devicons' } },
+  { 'stevearc/conform.nvim' },
   -- Neovim native plugins
   { 'akinsho/bufferline.nvim', version = "*", dependencies = 'nvim-tree/nvim-web-devicons' },
   { 'nvim-lua/plenary.nvim' },
   { 'nvim-telescope/telescope.nvim' },
   { 'nvim-treesitter/nvim-treesitter', build = ':TSUpdate' },
-  -- { 'CopilotCNC/CopilotChat.nvim', dependencies = { 'github/copilot.vim' } },
-
 })
+
 require('nvim-tree').setup {}
 require('bufferline').setup {}
 require('lualine').setup {
@@ -75,6 +83,9 @@ vim.opt.incsearch = true
 vim.opt.synmaxcol = 256
 vim.opt.smarttab = true
 vim.opt.expandtab = true
+vim.opt.shiftwidth = 2
+vim.opt.tabstop = 2
+vim.opt.softtabstop = 2
 vim.opt.copyindent = true
 vim.opt.preserveindent = true
 vim.opt.backspace = { 'indent', 'eol', 'start' }
@@ -130,25 +141,100 @@ map('n', '<Leader>ss', [[:let _s=@/ | %s/\s\+$//e | let @/=_s |<CR>]], { silent 
 map('n', '<C-n>', ':NvimTreeToggle<CR>')
 map('n', '<S-h>', ':BufferLineCyclePrev<CR>')
 map('n', '<S-l>', ':BufferLineCycleNext<CR>')
--- map('n', '<Leader>cc', ':CopilotChat<CR>', { desc = 'Open Copilot Chat' })
+
+-- LSP keymaps
+map('n', 'gd', vim.lsp.buf.definition, { desc = 'Go to definition' })
+map('n', 'gr', vim.lsp.buf.references, { desc = 'Find references' })
+map('n', 'gi', vim.lsp.buf.implementation, { desc = 'Go to implementation' })
+map('n', 'K', vim.lsp.buf.hover, { desc = 'Hover documentation' })
+map('n', '<Leader>rn', vim.lsp.buf.rename, { desc = 'Rename symbol' })
+map('n', '<Leader>ca', vim.lsp.buf.code_action, { desc = 'Code actions' })
+map('n', '<Leader>d', vim.diagnostic.open_float, { desc = 'Show diagnostics' })
+map('n', '[d', vim.diagnostic.goto_prev, { desc = 'Previous diagnostic' })
+map('n', ']d', vim.diagnostic.goto_next, { desc = 'Next diagnostic' })
+
+-- Trouble keymaps
+map('n', '<Leader>xx', '<cmd>Trouble diagnostics toggle<cr>', { desc = 'Diagnostics (Trouble)' })
+map('n', '<Leader>xd', '<cmd>Trouble diagnostics toggle filter.buf=0<cr>', { desc = 'Buffer Diagnostics (Trouble)' })
+map('n', '<Leader>xl', '<cmd>Trouble loclist toggle<cr>', { desc = 'Location List (Trouble)' })
+map('n', '<Leader>xq', '<cmd>Trouble quickfix toggle<cr>', { desc = 'Quickfix List (Trouble)' })
+
+-- Formatter setup (Prettier for JS/TS)
+require('conform').setup({
+  formatters_by_ft = {
+    javascript = { 'prettier' },
+    typescript = { 'prettier' },
+    javascriptreact = { 'prettier' },
+    typescriptreact = { 'prettier' },
+    json = { 'prettier' },
+    html = { 'prettier' },
+    css = { 'prettier' },
+    markdown = { 'prettier' },
+  },
+  format_on_save = {
+    timeout_ms = 500,
+    lsp_fallback = true,
+  },
+})
+
+-- Trouble setup for diagnostics
+require('trouble').setup {}
 
 local lspconfig = require('lspconfig')
+local capabilities = require('cmp_nvim_lsp').default_capabilities()
 
--- LSP setup with availability checks
-if vim.fn.executable('lua-language-server') == 1 then
-  lspconfig.lua_ls.setup {}
-end
-
+-- TypeScript/JavaScript LSP with enhanced settings
 if vim.fn.executable('typescript-language-server') == 1 then
-  if lspconfig.ts_ls and type(lspconfig.ts_ls.setup) == 'function' then
-    lspconfig.ts_ls.setup {}
-  elseif lspconfig.tsserver and type(lspconfig.tsserver.setup) == 'function' then
-    lspconfig.tsserver.setup {}
+  local ts_setup = function(server)
+    server.setup {
+      capabilities = capabilities,
+      settings = {
+        typescript = {
+          inlayHints = {
+            includeInlayParameterNameHints = 'all',
+            includeInlayFunctionParameterTypeHints = true,
+            includeInlayVariableTypeHints = true,
+            includeInlayPropertyDeclarationTypeHints = true,
+          },
+        },
+        javascript = {
+          inlayHints = {
+            includeInlayParameterNameHints = 'all',
+            includeInlayFunctionParameterTypeHints = true,
+            includeInlayVariableTypeHints = true,
+            includeInlayPropertyDeclarationTypeHints = true,
+          },
+        },
+      },
+    }
+  end
+  if lspconfig.ts_ls then
+    ts_setup(lspconfig.ts_ls)
+  elseif lspconfig.tsserver then
+    ts_setup(lspconfig.tsserver)
   end
 end
 
+-- ESLint LSP
+if vim.fn.executable('vscode-eslint-language-server') == 1 then
+  lspconfig.eslint.setup {
+    capabilities = capabilities,
+    on_attach = function(client, bufnr)
+      vim.api.nvim_create_autocmd('BufWritePre', {
+        buffer = bufnr,
+        command = 'EslintFixAll',
+      })
+    end,
+  }
+end
+
+-- LSP setup with availability checks
+if vim.fn.executable('lua-language-server') == 1 then
+  lspconfig.lua_ls.setup { capabilities = capabilities }
+end
+
 if vim.fn.executable('gopls') == 1 then
-  lspconfig.gopls.setup {}
+  lspconfig.gopls.setup { capabilities = capabilities }
 end
 
 local cmp = require('cmp')
@@ -177,13 +263,20 @@ cmp.setup {
 }
 
 require'nvim-treesitter.configs'.setup {
-  ensure_installed = { "bash", "dockerfile", "go", "gitignore", "git_rebase", "graphql", "javascript", "json", "lua", "markdown", "typescript", "vim", "yaml" },
+  ensure_installed = {
+    "bash", "css", "dockerfile", "go", "gitignore", "git_rebase",
+    "graphql", "html", "javascript", "jsdoc", "json", "lua",
+    "markdown", "regex", "scss", "tsx", "typescript", "vim", "yaml"
+  },
   sync_install = false,
   auto_install = true,
   highlight = {
     enable = true,
     additional_vim_regex_highlighting = false,
-  }
+  },
+  indent = {
+    enable = true,
+  },
 }
 
 require('telescope').setup{
@@ -198,7 +291,8 @@ require('telescope').setup{
       '--smart-case',
       '--ignore-file',
       '.gitignore'
-    }
+    },
+    file_ignore_patterns = { 'node_modules', '.git/', 'dist/', 'build/' },
   }
 }
 
@@ -207,12 +301,8 @@ vim.api.nvim_create_autocmd('BufNewFile', {
   command = 'set syntax=html',
 })
 
--- For legacy Vimscript functions, you can use vim.cmd[[ ... ]] blocks if needed
--- Example:
--- vim.cmd[[
--- function! DecodeURI(uri)
---   return substitute(a:uri, '%\([a-fA-F0-9][a-fA-F0-9]\)', '\=nr2char("0x" . submatch(1))', "g")
--- endfunction
--- ]]
-
--- If you need to port more custom Vimscript, let me know!
+-- Set .env files to use sh syntax
+vim.api.nvim_create_autocmd({ 'BufRead', 'BufNewFile' }, {
+  pattern = { '.env', '.env.*' },
+  command = 'set filetype=sh',
+})
