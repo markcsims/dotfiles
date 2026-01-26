@@ -9,10 +9,17 @@ end
 vim.opt.rtp:prepend(lazypath)
 
 -- Ensure NVM node binaries are in PATH for LSP servers
-local nvm_node_path = vim.fn.expand('~/.nvm/versions/node/v22.21.1/bin')
-if vim.fn.isdirectory(nvm_node_path) == 1 then
-  vim.env.PATH = nvm_node_path .. ':' .. vim.env.PATH
+local function add_nvm_to_path()
+  -- Try to get node path from the shell environment
+  local node_bin = vim.fn.system('which node 2>/dev/null'):gsub('\n', '')
+  if node_bin ~= '' and vim.fn.executable(node_bin) == 1 then
+    local node_dir = vim.fn.fnamemodify(node_bin, ':h')
+    if not string.find(vim.env.PATH, node_dir, 1, true) then
+      vim.env.PATH = node_dir .. ':' .. vim.env.PATH
+    end
+  end
 end
+add_nvm_to_path()
 
 require('lazy').setup({
   -- Colorschemes & UI
