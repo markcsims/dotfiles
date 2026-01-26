@@ -1,12 +1,5 @@
 -- Bootstrap lazy.nvim if not installed
-local larequire('lualine').setup {
-  options = {
-    theme = 'nightfox',
-    section_separators = { left = '', right = '' },
-    component_separators = { left = '', right = '' },
-    icons_enabled = true,
-    globalstatus = true,
-  }, vim.fn.stdpath('data') .. '/lazy/lazy.nvim'
+local lazypath = vim.fn.stdpath('data') .. '/lazy/lazy.nvim'
 if not vim.uv.fs_stat(lazypath) then
   vim.fn.system({
     'git', 'clone', '--filter=blob:none',
