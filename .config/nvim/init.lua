@@ -8,6 +8,12 @@ if not vim.uv.fs_stat(lazypath) then
 end
 vim.opt.rtp:prepend(lazypath)
 
+-- Ensure NVM node binaries are in PATH for LSP servers
+local nvm_node_path = vim.fn.expand('~/.nvm/versions/node/v22.21.1/bin')
+if vim.fn.isdirectory(nvm_node_path) == 1 then
+  vim.env.PATH = nvm_node_path .. ':' .. vim.env.PATH
+end
+
 require('lazy').setup({
   -- Colorschemes & UI
   { 'EdenEast/nightfox.nvim' },
@@ -183,38 +189,35 @@ local lspconfig = require('lspconfig')
 local capabilities = require('cmp_nvim_lsp').default_capabilities()
 
 -- TypeScript/JavaScript LSP with enhanced settings
-local ts_cmd = vim.fn.executable('typescript-language-server') == 1
-  and 'typescript-language-server'
-  or vim.fn.expand('~/.nvm/versions/node/v18.18.0/bin/typescript-language-server')
-
-local ts_setup = function(server)
-  server.setup {
-    capabilities = capabilities,
-    cmd = { ts_cmd, '--stdio' },
-    settings = {
-      typescript = {
-        inlayHints = {
-          includeInlayParameterNameHints = 'all',
-          includeInlayFunctionParameterTypeHints = true,
-          includeInlayVariableTypeHints = true,
-          includeInlayPropertyDeclarationTypeHints = true,
+if vim.fn.executable('typescript-language-server') == 1 then
+  local ts_setup = function(server)
+    server.setup {
+      capabilities = capabilities,
+      settings = {
+        typescript = {
+          inlayHints = {
+            includeInlayParameterNameHints = 'all',
+            includeInlayFunctionParameterTypeHints = true,
+            includeInlayVariableTypeHints = true,
+            includeInlayPropertyDeclarationTypeHints = true,
+          },
+        },
+        javascript = {
+          inlayHints = {
+            includeInlayParameterNameHints = 'all',
+            includeInlayFunctionParameterTypeHints = true,
+            includeInlayVariableTypeHints = true,
+            includeInlayPropertyDeclarationTypeHints = true,
+          },
         },
       },
-      javascript = {
-        inlayHints = {
-          includeInlayParameterNameHints = 'all',
-          includeInlayFunctionParameterTypeHints = true,
-          includeInlayVariableTypeHints = true,
-          includeInlayPropertyDeclarationTypeHints = true,
-        },
-      },
-    },
-  }
-end
-if lspconfig.ts_ls then
-  ts_setup(lspconfig.ts_ls)
-elseif lspconfig.tsserver then
-  ts_setup(lspconfig.tsserver)
+    }
+  end
+  if lspconfig.ts_ls then
+    ts_setup(lspconfig.ts_ls)
+  elseif lspconfig.tsserver then
+    ts_setup(lspconfig.tsserver)
+  end
 end
 
 -- ESLint LSP
