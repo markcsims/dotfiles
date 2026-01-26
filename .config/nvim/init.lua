@@ -1,6 +1,13 @@
 -- Bootstrap lazy.nvim if not installed
-local lazypath = vim.fn.stdpath('data') .. '/lazy/lazy.nvim'
-if not vim.loop.fs_stat(lazypath) then
+require('lualine').setup {
+  options = {
+    theme = 'nightfox',
+    section_separators = { left = '', right = '' },
+    component_separators = { left = '', right = '' },
+    icons_enabled = true,
+    globalstatus = true,
+  },zypath = vim.fn.stdpath('data') .. '/lazy/lazy.nvim'
+if not vim.uv.fs_stat(lazypath) then
   vim.fn.system({
     'git', 'clone', '--filter=blob:none',
     'https://github.com/folke/lazy.nvim.git', lazypath
@@ -15,6 +22,7 @@ require('lazy').setup({
   { 'nvim-lualine/lualine.nvim' },
   { 'tpope/vim-surround' },
   { 'tpope/vim-repeat' },
+  { 'tpope/vim-fugitive' },
   { 'matze/vim-move' },
   -- LSP and completion
   { 'neovim/nvim-lspconfig' },
@@ -24,8 +32,9 @@ require('lazy').setup({
   { 'hrsh7th/cmp-path' },
   { 'hrsh7th/cmp-cmdline' },
   { 'L3MON4D3/LuaSnip' },
-  { 'zbirenbaum/copilot-cmp' },
-  { 'github/copilot.vim' },
+  { 'saadparwaiz1/cmp_luasnip' },
+  { 'zbirenbaum/copilot.lua', cmd = 'Copilot', event = 'InsertEnter', config = function() require('copilot').setup({}) end },
+  { 'zbirenbaum/copilot-cmp', config = function() require('copilot_cmp').setup() end },
   -- Neovim native plugins
   { 'akinsho/bufferline.nvim', version = "*", dependencies = 'nvim-tree/nvim-web-devicons' },
   { 'nvim-lua/plenary.nvim' },
@@ -85,9 +94,9 @@ vim.opt.textwidth = 80
 vim.opt.formatoptions = 'qrn1'
 vim.opt.wildmenu = true
 vim.opt.wildmode = { 'longest:full', 'full' }
-vim.opt.backupdir = vim.fn.expand('~/.vim/tmp/backup//')
-vim.opt.directory = vim.fn.expand('~/.vim/tmp/swap//')
-vim.opt.undodir = vim.fn.expand('~/.vim/tmp/undo//')
+vim.opt.backupdir = vim.fn.stdpath('data') .. '/backup//'
+vim.opt.directory = vim.fn.stdpath('data') .. '/swap//'
+vim.opt.undodir = vim.fn.stdpath('data') .. '/undo//'
 vim.opt.undofile = true
 vim.opt.spelllang = 'en_gb'
 vim.opt.sessionoptions = { 'resize', 'winpos', 'winsize', 'buffers', 'tabpages', 'folds', 'curdir', 'help' }
@@ -119,19 +128,30 @@ map('n', '<Leader>fb', '<cmd>Telescope buffers<cr>')
 map('n', '<Leader>fh', '<cmd>Telescope help_tags<cr>')
 map('n', '<Leader>ss', [[:let _s=@/ | %s/\s\+$//e | let @/=_s |<CR>]], { silent = true })
 map('n', '<C-n>', ':NvimTreeToggle<CR>')
+map('n', '<S-h>', ':BufferLineCyclePrev<CR>')
+map('n', '<S-l>', ':BufferLineCycleNext<CR>')
 -- map('n', '<Leader>cc', ':CopilotChat<CR>', { desc = 'Open Copilot Chat' })
 
 local lspconfig = require('lspconfig')
-lspconfig.lua_ls.setup {}
-if lspconfig.ts_ls and type(lspconfig.ts_ls.setup) == 'function' then
-  lspconfig.ts_ls.setup {}
-elseif lspconfig.tsserver and type(lspconfig.tsserver.setup) == 'function' then
-  lspconfig.tsserver.setup {}
+
+-- LSP setup with availability checks
+if vim.fn.executable('lua-language-server') == 1 then
+  lspconfig.lua_ls.setup {}
 end
-lspconfig.gopls.setup {}
+
+if vim.fn.executable('typescript-language-server') == 1 then
+  if lspconfig.ts_ls and type(lspconfig.ts_ls.setup) == 'function' then
+    lspconfig.ts_ls.setup {}
+  elseif lspconfig.tsserver and type(lspconfig.tsserver.setup) == 'function' then
+    lspconfig.tsserver.setup {}
+  end
+end
+
+if vim.fn.executable('gopls') == 1 then
+  lspconfig.gopls.setup {}
+end
 
 local cmp = require('cmp')
-require('copilot_cmp').setup()
 cmp.setup {
   snippet = {
     expand = function(args)
@@ -157,7 +177,7 @@ cmp.setup {
 }
 
 require'nvim-treesitter.configs'.setup {
-  ensure_installed = { "bash", "dockerfile", "go", "gitignore", "git_rebase", "graphql", "javascript", "json", "markdown", "typescript", "vim", "yaml" },
+  ensure_installed = { "bash", "dockerfile", "go", "gitignore", "git_rebase", "graphql", "javascript", "json", "lua", "markdown", "typescript", "vim", "yaml" },
   sync_install = false,
   auto_install = true,
   highlight = {
@@ -185,12 +205,6 @@ require('telescope').setup{
 vim.api.nvim_create_autocmd('BufNewFile', {
   pattern = '*.razor',
   command = 'set syntax=html',
-})
-
-
-vim.api.nvim_create_autocmd('BufWritePost', {
-  pattern = 'init.lua',
-  command = 'source ~/.config/nvim/init.lua',
 })
 
 -- For legacy Vimscript functions, you can use vim.cmd[[ ... ]] blocks if needed
