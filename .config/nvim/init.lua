@@ -24,8 +24,8 @@ require('lazy').setup({
   { 'hrsh7th/cmp-buffer' },
   { 'hrsh7th/cmp-path' },
   { 'hrsh7th/cmp-cmdline' },
-  { 'L3MON4D3/LuaSnip' },
-  { 'saadparwaiz1/cmp_luasnip' },
+  { 'L3MON4D3/LuaSnip', build = 'make install_jsregexp', lazy = true },
+  { 'saadparwaiz1/cmp_luasnip', lazy = true },
   { 'zbirenbaum/copilot.lua', cmd = 'Copilot', event = 'InsertEnter', config = function() require('copilot').setup({}) end },
   { 'zbirenbaum/copilot-cmp', config = function() require('copilot_cmp').setup() end },
   -- TypeScript/JavaScript enhancements
@@ -65,6 +65,11 @@ require('lualine').setup {
   tabline = {},
   extensions = {'nvim-tree', 'quickfix', 'fugitive'}
 }
+
+-- Suppress lspconfig deprecation warnings
+vim.deprecate = function() end
+
+-- Options
 vim.opt.backup = false
 vim.opt.laststatus = 2
 vim.opt.autowrite = true
@@ -258,10 +263,14 @@ if vim.fn.executable('gopls') == 1 then
 end
 
 local cmp = require('cmp')
+local luasnip_ok, luasnip = pcall(require, 'luasnip')
+
 cmp.setup {
   snippet = {
     expand = function(args)
-      require('luasnip').lsp_expand(args.body)
+      if luasnip_ok then
+        luasnip.lsp_expand(args.body)
+      end
     end,
   },
   mapping = cmp.mapping.preset.insert({
@@ -275,7 +284,6 @@ cmp.setup {
   sources = cmp.config.sources({
     { name = 'copilot' },
     { name = 'nvim_lsp' },
-    { name = 'luasnip' },
   }, {
     { name = 'buffer' },
     { name = 'path' },
