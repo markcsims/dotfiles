@@ -1,5 +1,12 @@
 -- Bootstrap lazy.nvim if not installed
-local lazypath = vim.fn.stdpath('data') .. '/lazy/lazy.nvim'
+local larequire('lualine').setup {
+  options = {
+    theme = 'nightfox',
+    section_separators = { left = '', right = '' },
+    component_separators = { left = '', right = '' },
+    icons_enabled = true,
+    globalstatus = true,
+  }, vim.fn.stdpath('data') .. '/lazy/lazy.nvim'
 if not vim.uv.fs_stat(lazypath) then
   vim.fn.system({
     'git', 'clone', '--filter=blob:none',
@@ -183,35 +190,38 @@ local lspconfig = require('lspconfig')
 local capabilities = require('cmp_nvim_lsp').default_capabilities()
 
 -- TypeScript/JavaScript LSP with enhanced settings
-if vim.fn.executable('typescript-language-server') == 1 then
-  local ts_setup = function(server)
-    server.setup {
-      capabilities = capabilities,
-      settings = {
-        typescript = {
-          inlayHints = {
-            includeInlayParameterNameHints = 'all',
-            includeInlayFunctionParameterTypeHints = true,
-            includeInlayVariableTypeHints = true,
-            includeInlayPropertyDeclarationTypeHints = true,
-          },
-        },
-        javascript = {
-          inlayHints = {
-            includeInlayParameterNameHints = 'all',
-            includeInlayFunctionParameterTypeHints = true,
-            includeInlayVariableTypeHints = true,
-            includeInlayPropertyDeclarationTypeHints = true,
-          },
+local ts_cmd = vim.fn.executable('typescript-language-server') == 1
+  and 'typescript-language-server'
+  or vim.fn.expand('~/.nvm/versions/node/v18.18.0/bin/typescript-language-server')
+
+local ts_setup = function(server)
+  server.setup {
+    capabilities = capabilities,
+    cmd = { ts_cmd, '--stdio' },
+    settings = {
+      typescript = {
+        inlayHints = {
+          includeInlayParameterNameHints = 'all',
+          includeInlayFunctionParameterTypeHints = true,
+          includeInlayVariableTypeHints = true,
+          includeInlayPropertyDeclarationTypeHints = true,
         },
       },
-    }
-  end
-  if lspconfig.ts_ls then
-    ts_setup(lspconfig.ts_ls)
-  elseif lspconfig.tsserver then
-    ts_setup(lspconfig.tsserver)
-  end
+      javascript = {
+        inlayHints = {
+          includeInlayParameterNameHints = 'all',
+          includeInlayFunctionParameterTypeHints = true,
+          includeInlayVariableTypeHints = true,
+          includeInlayPropertyDeclarationTypeHints = true,
+        },
+      },
+    },
+  }
+end
+if lspconfig.ts_ls then
+  ts_setup(lspconfig.ts_ls)
+elseif lspconfig.tsserver then
+  ts_setup(lspconfig.tsserver)
 end
 
 -- ESLint LSP
