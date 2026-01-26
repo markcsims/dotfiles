@@ -1,12 +1,5 @@
 -- Bootstrap lazy.nvim if not installed
-local larequire('lualine').setup {
-  options = {
-    theme = 'nightfox',
-    section_separators = { left = '', right = '' },
-    component_separators = { left = '', right = '' },
-    icons_enabled = true,
-    globalstatus = true,
-  }, vim.fn.stdpath('data') .. '/lazy/lazy.nvim'
+local lazypath = vim.fn.stdpath('data') .. '/lazy/lazy.nvim'
 if not vim.uv.fs_stat(lazypath) then
   vim.fn.system({
     'git', 'clone', '--filter=blob:none',
@@ -159,7 +152,7 @@ map('n', '<Leader>xd', '<cmd>Trouble diagnostics toggle filter.buf=0<cr>', { des
 map('n', '<Leader>xl', '<cmd>Trouble loclist toggle<cr>', { desc = 'Location List (Trouble)' })
 map('n', '<Leader>xq', '<cmd>Trouble quickfix toggle<cr>', { desc = 'Quickfix List (Trouble)' })
 
--- Formatter setup (Prettier for JS/TS)
+-- Formatter setup (Prettier for JS/TS, gofmt/goimports for Go)
 require('conform').setup({
   formatters_by_ft = {
     javascript = { 'prettier' },
@@ -170,6 +163,7 @@ require('conform').setup({
     html = { 'prettier' },
     css = { 'prettier' },
     markdown = { 'prettier' },
+    go = { 'goimports', 'gofmt' },
   },
   format_on_save = {
     timeout_ms = 500,
@@ -234,7 +228,33 @@ if vim.fn.executable('lua-language-server') == 1 then
 end
 
 if vim.fn.executable('gopls') == 1 then
-  lspconfig.gopls.setup { capabilities = capabilities }
+  lspconfig.gopls.setup {
+    capabilities = capabilities,
+    settings = {
+      gopls = {
+        analyses = {
+          unusedparams = true,
+          shadow = true,
+          nilness = true,
+          unusedwrite = true,
+          useany = true,
+        },
+        staticcheck = true,
+        gofumpt = true,
+        usePlaceholders = true,
+        completeUnimported = true,
+        hints = {
+          assignVariableTypes = true,
+          compositeLiteralFields = true,
+          compositeLiteralTypes = true,
+          constantValues = true,
+          functionTypeParameters = true,
+          parameterNames = true,
+          rangeVariableTypes = true,
+        },
+      },
+    },
+  }
 end
 
 local cmp = require('cmp')
@@ -264,9 +284,10 @@ cmp.setup {
 
 require'nvim-treesitter.configs'.setup {
   ensure_installed = {
-    "bash", "css", "dockerfile", "go", "gitignore", "git_rebase",
-    "graphql", "html", "javascript", "jsdoc", "json", "lua",
-    "markdown", "regex", "scss", "tsx", "typescript", "vim", "yaml"
+    "bash", "css", "dockerfile", "go", "gomod", "gosum", "gowork",
+    "gitignore", "git_rebase", "graphql", "html", "javascript",
+    "jsdoc", "json", "lua", "markdown", "regex", "scss", "tsx",
+    "typescript", "vim", "yaml"
   },
   sync_install = false,
   auto_install = true,
