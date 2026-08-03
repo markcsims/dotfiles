@@ -11,6 +11,3 @@ background = 161616
 foreground = d1d3d4
 mouse-hide-while-typing = true
 initial-command = zsh -c 'tmux attach -t base || tmux new -s base'
-# background-opacity = 0
-# background-blur = macos-glass-clear
-# macos-titlebar-style = transparent

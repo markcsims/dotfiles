@@ -4,7 +4,7 @@ export ZSH=$HOME/.oh-my-zsh
 ZSH_THEME="mortalit"
 
 DEFAULT_USER="mark"
-EMAIL="mark.sims@bluepie.co.uk"
+EMAIL="mark.sims@iongroup.com"
 
 CASE_SENSITIVE="true"
 ENABLE_CORRECTION="true"
@@ -13,11 +13,13 @@ plugins=(git ruby brew node docker emoji golang npm nvm macos aws docker-compose
 
 bindkey -v
 
-export PATH="/opt/homebrew/bin:/opt/homebrew/sbin:/usr/local/bin:/usr/local/sbin:/usr/bin:/bin:/usr/sbin:/sbin:/opt/X11/bin:$HOME/.local/bin:$HOME/dev/mm/mmgaws:$HOME/.goenv/shims:$HOME/.rvm/bin:$HOME/dev/go/bin:$PATH"
+export PATH="$HOME/.npm-global/bin:/opt/homebrew/bin:/opt/homebrew/sbin:/usr/local/bin:/usr/local/sbin:/usr/bin:/bin:/usr/sbin:/sbin:/opt/X11/bin:$HOME/.local/bin:$HOME/dev/mm/mmgaws:$HOME/.goenv/shims:$HOME/.rvm/bin:$HOME/dev/go/bin:$PATH"
 
 source $ZSH/oh-my-zsh.sh
 
 export NVM_DIR="$HOME/.nvm"
+export PNPM_HOME="$HOME/.pnpm"
+export PATH="$PNPM_HOME:$PATH"
 
 [[ -s "$HOME/.rvm/scripts/rvm" ]] && . "$HOME/.rvm/scripts/rvm"
 [ -s "/opt/homebrew/opt/nvm/nvm.sh" ] && . "/opt/homebrew/opt/nvm/nvm.sh"  # This loads nvm
@@ -49,7 +51,7 @@ HISTSIZE=10000
 SAVEHIST=10000
 setopt inc_append_history
 setopt share_history
-umask 027
+# umask 027
 alias gs='git status'
 alias gco='git checkout'
 alias gc='git commit'
@@ -65,5 +67,10 @@ export GPG_TTY=$(tty)
 alias ibrew='arch -x86_64 /usr/local/bin/brew'
 alias python=/usr/local/bin/python3
 [ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
-nvm use
-# export NODE_EXTRA_CA_CERTS=~/dev/trendy/netskope-CA.pem
+eval "$(fnm env --use-on-cd --shell zsh)"
+export NODE_EXTRA_CA_CERTS=~/dev/trendy/netskope-CA.pem
+export PATH="$HOME/.rbenv/bin:$PATH"
+eval "$(rbenv init -)"
+
+autoload -U +X bashcompinit && bashcompinit
+complete -o nospace -C /opt/homebrew/bin/wizcli wizcli

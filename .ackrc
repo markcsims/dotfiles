@@ -25,3 +25,4 @@
 --type-set=haml=.haml
 --type-add=css=less
 --type-set=markdown=.md,.mkd,.markdown
+

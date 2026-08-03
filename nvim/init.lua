@@ -54,7 +54,34 @@ require('lazy').setup({
   { 'akinsho/bufferline.nvim', version = "*", dependencies = 'nvim-tree/nvim-web-devicons' },
   { 'nvim-lua/plenary.nvim' },
   { 'nvim-telescope/telescope.nvim' },
-  { 'nvim-treesitter/nvim-treesitter', build = ':TSUpdate' },
+  {
+      'nvim-treesitter/nvim-treesitter',
+      branch='main',
+      build = ':TSUpdate',
+      config = function()
+        local ts = require('nvim-treesitter')
+
+        ts.setup({
+          -- auto_install is still supported here
+          auto_install = true,
+          highlight = {
+            enable = true,
+            -- additional_vim_regex_highlighting is largely deprecated/defaulted in main
+          },
+          indent = {
+            enable = true,
+          },
+        })
+
+        -- In the new 'main' branch, use .install() instead of ensure_installed
+        ts.install({
+          "bash", "css", "dockerfile", "go", "gomod", "gosum", "gowork",
+          "gitignore", "git_rebase", "graphql", "html", "javascript",
+          "jsdoc", "json", "lua", "markdown", "regex", "scss", "tsx",
+          "typescript", "vim", "yaml"
+        })
+      end
+   },
 })
 
 require('nvim-tree').setup {}
@@ -113,6 +140,7 @@ vim.opt.smartcase = true
 vim.opt.wrap = true
 vim.opt.whichwrap:append('<,>,[,]')
 vim.opt.textwidth = 80
+vim.opt.colorcolumn = '80'
 vim.opt.formatoptions = 'qrn1'
 vim.opt.wildmenu = true
 vim.opt.wildmode = { 'longest:full', 'full' }
@@ -144,7 +172,10 @@ map('n', '<Leader>tm', ':tabm <Space>')
 map('n', '<Leader>td', ':tabclose<CR>')
 map('n', '<C-y>', '"+y')
 map('v', '<C-y>', '"+y')
-map('n', '<Leader>ff', '<cmd>Telescope find_files<cr>')
+local builtin = require('telescope.builtin')
+map('n', '<Leader>ff', function() 
+  builtin.find_files({ hidden = true })
+end)
 map('n', '<Leader>fg', '<cmd>Telescope live_grep<cr>')
 map('n', '<Leader>fb', '<cmd>Telescope buffers<cr>')
 map('n', '<Leader>fh', '<cmd>Telescope help_tags<cr>')
@@ -303,26 +334,9 @@ cmp.setup {
   })
 }
 
-require'nvim-treesitter.configs'.setup {
-  ensure_installed = {
-    "bash", "css", "dockerfile", "go", "gomod", "gosum", "gowork",
-    "gitignore", "git_rebase", "graphql", "html", "javascript",
-    "jsdoc", "json", "lua", "markdown", "regex", "scss", "tsx",
-    "typescript", "vim", "yaml"
-  },
-  sync_install = false,
-  auto_install = true,
-  highlight = {
-    enable = true,
-    additional_vim_regex_highlighting = false,
-  },
-  indent = {
-    enable = true,
-  },
-}
-
 require('telescope').setup{
   defaults = {
+    hidden = true,
     vimgrep_arguments = {
       'rg',
       '--color=never',
@@ -331,10 +345,10 @@ require('telescope').setup{
       '--line-number',
       '--column',
       '--smart-case',
-      '--ignore-file',
-      '.gitignore'
+      '--hidden',
+      '--glob', "!**/.git/*"
     },
-    file_ignore_patterns = { 'node_modules', '.git/', 'dist/', 'build/' },
+    file_ignore_patterns = { 'node_modules', '^%.git/', 'dist/', 'build/' },
   }
 }
 
@@ -347,4 +361,9 @@ vim.api.nvim_create_autocmd('BufNewFile', {
 vim.api.nvim_create_autocmd({ 'BufRead', 'BufNewFile' }, {
   pattern = { '.env', '.env.*' },
   command = 'set filetype=sh',
+})
+
+vim.o.autoread = true
+vim.api.nvim_create_autocmd({ "FocusGained", "BufEnter", "CursorHold" }, {
+  command = "checktime",
 })
