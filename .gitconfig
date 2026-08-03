@@ -1,3 +1,7 @@
+[user]
+  email = mark@bluepie.co.uk
+  name = Mark Sims
+  signingkey = B22566803E1E09D0
 [push]
   default = simple
   autoSetupRemote = true
@@ -7,7 +11,6 @@
   editor = nvim
 [rerere]
   enabled = true
-  autoupdate = true
 [alias]
   ll =  log --color --graph --all --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit
   ls =  log --oneline --graph --decorate
@@ -23,24 +26,8 @@
   process = git-lfs filter-process
 [commit]
   gpsign = true
+  gpgsign = true
 [http]
   postBuffer = 157286400
 [init]
   defaultBranch = master
-[column]
-  gui = auto
-[branch]
-  gsort = -committerdate
-[diff]
-  galgorithm = histogram
-  gcolorMoved = plain
-  gmnemonicPrefix = true
-  grenames = true
-[fetch]
-  gprune = true
-  gpruneTags = true
-  gall = true
-[help]
-  gautocorrect = prompt
-[pull]
-  grebase = true

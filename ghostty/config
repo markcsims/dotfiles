@@ -1,0 +1,52 @@
+# ============================================================
+# Ghostty Config
+# ============================================================
+
+# ---------- Theme ----------
+theme = tokyonight
+
+# ---------- Font ----------
+font-family = FiraCode Nerd Font Mono
+font-family-bold = FiraCode Nerd Font Mono
+font-family-italic = FiraCode Nerd Font Mono
+font-family-bold-italic = FiraCode Nerd Font Mono
+font-size = 16
+font-thicken = true
+
+# Slightly more comfortable line height
+adjust-cell-height = 8%
+
+# ---------- Cursor ----------
+cursor-style = block
+cursor-style-blink = false
+cursor-color = #e933e1
+
+# ---------- Colors ----------
+background = #161616
+foreground = #d1d3d4
+background-opacity = 0.97
+
+# ---------- Window ----------
+window-padding-x = 12
+window-padding-y = 10
+window-decoration = true
+window-theme = dark
+
+# ---------- Behavior ----------
+mouse-hide-while-typing = true
+copy-on-select = true
+clipboard-read = allow
+clipboard-write = allow
+confirm-close-surface = true
+
+# ---------- macOS ----------
+macos-option-as-alt = true
+# macos-titlebar-style = hidden   # uncomment for a cleaner look
+
+# ---------- Shell ----------
+env = XDG_CONFIG_HOME=/Users/mark/.config
+command = /opt/homebrew/bin/nu
+shell-integration = detect
+
+# ---------- Scrollback ----------
+scrollback-limit = 10000

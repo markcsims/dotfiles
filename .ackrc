@@ -17,7 +17,7 @@
 --ignore-file=match:/[.]js[.]chunk$
 --ignore-file=match:.eslintcache
 --ignore-file=match:/[.]tsbuildinfo$/
-
+--ignore-file=match:package-lock.json
 
 --type-set=feature=.feature
 --type-set=json=.json

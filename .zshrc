@@ -66,4 +66,4 @@ alias ibrew='arch -x86_64 /usr/local/bin/brew'
 alias python=/usr/local/bin/python3
 [ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
 nvm use
-export NODE_EXTRA_CA_CERTS=~/dev/trendy/netskope-CA.pem
+# export NODE_EXTRA_CA_CERTS=~/dev/trendy/netskope-CA.pem
