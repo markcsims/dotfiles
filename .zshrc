@@ -4,7 +4,7 @@ export ZSH=$HOME/.oh-my-zsh
 ZSH_THEME="mortalit"
 
 DEFAULT_USER="mark"
-EMAIL="mark.sims@iongroup.com"
+EMAIL="mark.sims@bluepie.com"
 
 CASE_SENSITIVE="true"
 ENABLE_CORRECTION="true"
